@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: campus_hackthon
+  
+  profiles:
+    default: local
+
+  config:
+    import:
+      - security/application-db.yml
+      - security/application-jwt.yml
+      - security/application-oauth.yml
+
+# Swagger 설정
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    default-produces-media-type: application/json
+  packages-to-scan: com.kbsw.campus_hackthon.Controller
+
+# AWS RDS 설정 (운영환경용 - 현재 비활성화)
+#spring:
+#  datasource:
+#    url: jdbc:mysql://nuskkyrsgmn5rw8c.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/u57k3pda367nainq?serverTimezone=UTC&useSSL=false
+#    username: urk02kfvpbegu8wh
+#    password: dmi260cpq0tojz2r
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 5

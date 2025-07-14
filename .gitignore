@@ -37,6 +37,6 @@ out/
 .vscode/
 
 .env
-firebase-service-account.json
-/Users/nohseunghyeok/Documents/webkit/campus_hackthon/src/main/resources/firebase-service-account.jsonsrc/main/resources/firebase-service-account.json
 src/main/resources/firebase-service-account.json
+src/main/resources/security
+src/main/resources/application.properties.backup
