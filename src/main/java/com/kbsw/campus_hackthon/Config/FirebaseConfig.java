@@ -15,29 +15,30 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void initialize() {
-        try {
-                // 🔥 환경변수에서 JSON 키 문자열 불러오기
-                String firebaseConfig = System.getenv("FIREBASE_CONFIG");
-                if (firebaseConfig == null || firebaseConfig.isEmpty()) {
-                    throw new IllegalStateException("환경변수 FIREBASE_CONFIG가 설정되지 않았습니다.");
-                }
+        System.out.println("FirebaseConfig 초기화 시작");
 
-            InputStream serviceAccount = getClass()
-                    .getClassLoader()
-                    .getResourceAsStream("firebase-service-account.json");
+        try {
+            InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("firebase-service-account.json");
+
+            if (serviceAccount == null) {
+                throw new IllegalStateException("firebase-service-account.json 파일을 classpath에서 찾을 수 없습니다.");
+            }
+            System.out.println("firebase-service-account.json 파일 로드 성공");
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setStorageBucket("web-kit-69b0d") // ✅ 정확한 Storage 버킷 이름
+                    .setStorageBucket("web-kit-69b0d.firebasestorage.app")
                     .build();
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-                System.out.println("✅ Firebase 초기화 성공");
+                System.out.println(" FirebaseApp 초기화 완료");
+            } else {
+                System.out.println("이미 FirebaseApp이 초기화되어 있음");
             }
 
-        } catch (IOException e) {
-            System.err.println("❌ Firebase 초기화 실패: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Firebase 초기화 중 오류 발생: " + e.getMessage());
             e.printStackTrace();
         }
     }
