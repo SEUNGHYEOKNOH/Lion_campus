@@ -1,10 +1,16 @@
+import Login from "../Pages/Login";
 import Main from "../Pages/Main";
 
 
 const publicRoutes = [{
   path: "/",
   element: <Main />,
-  layoutType :"none"}];
+  layoutType :"none"},
+  {
+  path: "/login",
+  element: <Login/>,
+  layoutType :"none"}
+];
 
 const AuthenticateRoutes = [{}];
 
