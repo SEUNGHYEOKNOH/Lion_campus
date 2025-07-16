@@ -1,28 +1,26 @@
-// import { useNavigate } from "react-router-dom"
+// components/Layout/Header.jsx
+import React from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { LogIn, LogOut, Search } from "lucide-react"; // ← lucide에서 가져옴
+import { LogIn, LogOut, Search } from "lucide-react";
 
 const Header = () => {
-  // const onclicked = (e) => {
-  //   console.log(e.target);
-  // };
-
   return (
     <Head>
-      {/* <LogoWrapper onClick={onclicked}> */}
       <LogoWrapper>
-        <Link to="/" alt="로고">
-          <img src={logo}></img>
+        <Link to="/">
+          <img src={logo} alt="로고" />
         </Link>
       </LogoWrapper>
+
       <SearchContainer>
         <Input type="text" placeholder="검색어를 입력하세요" />
         <SearchButton>
           <Search />
         </SearchButton>
       </SearchContainer>
+
       <Btns>
         <Link to="/login">
           <div>로그인</div>
@@ -35,12 +33,24 @@ const Header = () => {
   );
 };
 
-const Head = styled.div`
+export default Header;
+
+// styled-components
+const Head = styled.header`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  padding: 40px;
-  gap: 10%;
+  padding: 12px 24px;
+  max-width: 1024px;
+  margin: 0 auto;
+`;
+
+const LogoWrapper = styled.div`
+  flex-shrink: 0;
+  img {
+    height: 50px;
+  }
+  margin-left: 12px;
 `;
 
 const SearchContainer = styled.div`
@@ -50,6 +60,7 @@ const SearchContainer = styled.div`
   height: 2rem;
   border: 1px solid #ccc;
   border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 0 12px;
   background-color: #fff;
 `;
@@ -69,21 +80,11 @@ const SearchButton = styled.button`
   cursor: pointer;
   color: #333;
   font-size: 18px;
-  padding: 0;
   display: flex;
   align-items: center;
-`;
-const LogoWrapper = styled.div`
-  flex-shrink: 0;
-  img {
-    height: 50px;
-  }
-  margin-left: 12px;
 `;
 
 const Btns = styled.div`
   display: flex;
   gap: 20px;
 `;
-
-export default Header;

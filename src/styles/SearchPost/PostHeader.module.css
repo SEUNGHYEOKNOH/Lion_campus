@@ -1,0 +1,64 @@
+.header {
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .meta {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    row-gap: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .metaBox div > strong {
+    display: inline-block;
+    width: 70px;
+    font-weight: 600;
+    color: #222;
+  }
+  
+  .titleSection {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .writerInfo {
+    font-size: 14px;
+    color: #555;
+    font-weight: 600;
+
+  }
+  
+  .date {
+    font-style: italic;
+  }
+
+  .imgSection {
+    margin-top: 32px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 32px;
+  }
+  
+  .image {
+    width: 30;             
+    max-height: 300px;       
+    object-fit: cover;     
+    margin: 0 auto 16px auto; /* 수평 중앙 정렬 */   
+    display: block;
+    margin-bottom: 16px;      
+    border-radius: 8px;       
+  }
+  .content {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #333;
+  }
