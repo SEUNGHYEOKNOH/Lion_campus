@@ -1,18 +1,30 @@
 // import { useNavigate } from "react-router-dom";
 import Header from "../components/Layout/Header";
 import DefaultCard from "../components/Common/Card";
-// import cardimg1 from "../assets/img-28.png";
 import styled from "styled-components";
 import { ArrowRightCircle } from "lucide-react";
 import tagImg1 from "../assets/tagImg1.png";
 import Footer from "../components/Layout/Footer";
 
+
+import { useEffect, useState } from "react";
+// import { useRecoilValue } from "recoil";
+
 const Main = () => {
-  // const test = () => {
-  //   console.log(cardimg1);
+
+
+
+
+  useEffect(() => {
+    console.log("유즈 이펙트 작동");
+  }, []);
+
+  // const [userData,setUserData] = useState("")
+
+  // const apiChecker = () => {
+  //   console.log();
   // };
 
-  // const images = [cardimg1, cardimg1, cardimg1];
   return (
     <div>
       <Header>상단헤더 자리</Header>
@@ -22,11 +34,11 @@ const Main = () => {
           <p className="MainTitle1">
             로그인 후 발자취를
             <br />
-            기록하고 공유해보세요
+            기록하고 공유해보세요ㅁ
           </p>
         </Text1>
         <RouteCardGrid>
-          <FeatureCard bgColor="#e0edff">
+          <FeatureCard style={{ backgroundColor: "#e0edff" }}>
             <div className="Headline4" style={{ fontWeight: 600 }}>
               마일스톤
             </div>
@@ -38,7 +50,7 @@ const Main = () => {
               <ArrowRightCircle />
             </ArrowWrapper>
           </FeatureCard>
-          <FeatureCard bgColor="#aecce9">
+          <FeatureCard style={{ backgroundColor: "#aecce9" }}>
             <div className="Headline4" style={{ fontWeight: 600 }}>
               글쓰기
             </div>
@@ -50,7 +62,7 @@ const Main = () => {
               <ArrowRightCircle />
             </ArrowWrapper>
           </FeatureCard>
-          <FeatureCard bgColor="#84b4e1">
+          <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
             <div className="Headline4" style={{ fontWeight: 600 }}>
               해시태그 구독하기
             </div>
