@@ -1,45 +1,80 @@
-// import { useNavigate } from "react-router-dom"
+import React from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { LogIn, LogOut, Search } from "lucide-react"; // ← lucide에서 가져옴
-
+import { LogIn, Search } from "lucide-react";
 
 const Header = () => {
-  const onclicked = (e) => {
-    console.log(e.target);
-  };
   return (
     <Head>
-      <LogoWrapper onClick={onclicked}>
-        <Link to="/" alt="로고"></Link>
-        <img src={logo}></img>
-      </LogoWrapper>
+      <LeftSection>
+        <Link to="/">
+          <Logo src={logo} alt="로고" />
+        </Link>
+      </LeftSection>
+
       <SearchContainer>
         <Input type="text" placeholder="검색어를 입력하세요" />
         <SearchButton>
           <Search />
         </SearchButton>
       </SearchContainer>
-      <div className="login">
-        <Link to="/login"></Link>
-      </div>
+
+      <RightSection>
+        <Link to="/login" className="login-link">
+          <LogIn size={20} />
+          <span>로그인</span>
+        </Link>
+      </RightSection>
     </Head>
   );
 };
 
-const Head = styled.div`
+export default Header;
+
+// styled-components 정의 부분
+
+const Head = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  max-width:1024px;
+  margin: 0 auto;
+`;
+
+const LeftSection = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const RightSection = styled.div`
+  .login-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .login-link:hover {
+    color: #007acc;
+  }
+`;
+
+const Logo = styled.img`
+  height: 60px;
 `;
 
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 300px;
+  width: 460px;
   height: 40px;
   border: 1px solid #ccc;
   border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 0 12px;
   background-color: #fff;
 `;
@@ -59,15 +94,6 @@ const SearchButton = styled.button`
   cursor: pointer;
   color: #333;
   font-size: 18px;
-  padding: 0;
   display: flex;
   align-items: center;
 `;
-const LogoWrapper = styled.div`
-  flex-shrink: 0;
-  img {
-    height: 40px;
-  }
-`;
-
-export default Header;

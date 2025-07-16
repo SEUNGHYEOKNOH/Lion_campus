@@ -1,0 +1,80 @@
+.card {
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  width: 100%;
+  max-width: 340px;
+  overflow: hidden; /* 🎯 내부 border-radius 유지 */
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  background-color: #f4f4f4; /* ✅ 연회색 배경 */
+  padding: 12px 16px;
+}
+
+.card:hover{
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* ✅ 호버 시 그림자 효과 */
+  transform: translateY(-2px); /* ✅ 호버 시 살짝 위로 이동 */
+  transition: box-shadow 0.2s ease, transform 0.2s ease; /* ✅ 부드러운 전환 효과 */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.left {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tag {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.rank {
+  background-color: #eee;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  color: #333;
+}
+
+.subscribeBtn {
+  background-color: #1e2e3e;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.subscribeBtn:hover {
+  transform: scale(1.05); /* 5% 커짐 */
+  background-color: #162636; /* 예시: 조금 더 어두운 톤 */
+}
+
+
+.rating {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
