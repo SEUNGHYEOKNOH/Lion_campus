@@ -37,3 +37,12 @@ thumb
 
 # 환경 파일
 .env
+
+# macOS
+.DS_Store
+node_modules/.DS_Store
+
+# Node-related
+node_modules/
+package-lock.json
+node_modules/.package-lock.json
