@@ -7,9 +7,9 @@ spring:
 
   config:
     import:
-      - security/application-db.yml
-      - security/application-jwt.yml
-      - security/application-oauth.yml
+      - classpath:security/application-db.yml
+      - classpath:security/application-jwt.yml
+      - classpath:security/application-oauth.yml
 
 # Swagger 설정
 springdoc:

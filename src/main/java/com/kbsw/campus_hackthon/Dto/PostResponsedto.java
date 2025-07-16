@@ -1,14 +1,16 @@
 package com.kbsw.campus_hackthon.Dto;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC) // 🔥 Builder 사용을 위한 public 생성자
+@Builder(access = AccessLevel.PUBLIC)
 public class PostResponsedto {
     private Long id;
     private String title;

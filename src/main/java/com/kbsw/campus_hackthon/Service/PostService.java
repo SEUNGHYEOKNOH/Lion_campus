@@ -7,6 +7,7 @@ import com.kbsw.campus_hackthon.entity.Post;
 import com.kbsw.campus_hackthon.entity.UserProfile;
 import com.kbsw.campus_hackthon.Repository.PostRepository;
 import com.kbsw.campus_hackthon.Repository.UserProfileRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,7 @@ public class PostService {
         return toResponseDto(saved);
     }
 
+    @Transactional
     public PostResponsedto getPost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Post 없음"));
@@ -71,11 +73,23 @@ public class PostService {
         return toResponseDto(updated);
     }
 
+    @Transactional
     public List<PostResponsedto> getPostByTag(String tag) {
-        List<Post> posts = postRepository.findByTagIn(Collections.singletonList(tag));
+        List<Post> posts = postRepository.findByTag(tag);
+
         return posts.stream()
-                .map(this::toResponseDto)
-                .collect(Collectors.toList());
+                .map(post -> PostResponsedto.builder()
+                        .id(post.getId())
+                        .title(post.getTitle())
+                        .content(post.getContent())
+                        .imageUrl(post.getImageUrl())
+                        .tag(post.getTag())
+                        .writerNickname(post.getUserProfile().getNickname()) // ✅ 수정
+                        .createdAt(post.getCreatedAt())
+                        .startDate(post.getStartDate())
+                        .endDate(post.getEndDate())
+                        .build())
+                .toList();
     }
 
     private PostResponsedto toResponseDto(Post post) {
@@ -87,8 +101,8 @@ public class PostService {
         dto.setTag(post.getTag());
         dto.setStartDate(post.getStartDate());
         dto.setEndDate(post.getEndDate());
-        dto.setCreatedAt(post.getCreatedAt().atStartOfDay());
-        dto.setUpdatedAt(post.getUpdatedAt().atStartOfDay());
+        dto.setCreatedAt(post.getCreatedAt());
+        dto.setUpdatedAt(post.getUpdatedAt());
         dto.setWriterNickname(post.getUserProfile().getNickname());
         return dto;
     }

@@ -2,22 +2,19 @@ package com.kbsw.campus_hackthon.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.annotation.Nullable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "post")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "post")
 public class Post {
 
     @Id
@@ -27,32 +24,31 @@ public class Post {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
+
+    @Column(name = "image_url", length = 500)
     private String imageUrl;
+
     @CreationTimestamp
-    private LocalDate createdAt;
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
     private String tag;
 
     private LocalDate startDate;
+
     private LocalDate endDate;
 
-
-    private boolean isActive = true; // 공개 여부
-
+    @Column(nullable = false)
+    private boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_profile_id")
     @JsonIgnore
     private UserProfile userProfile;
-
-
-
-
 }
-
-
-

@@ -1,5 +1,6 @@
 package com.kbsw.campus_hackthon.Service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbsw.campus_hackthon.Repository.CareerItemRepository;
@@ -98,7 +99,7 @@ public class TFIDFRecommenderService {
         log.debug("요청 URL: {}", llamaApiUrl);
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("model", "openrouter/cypher-alpha:free");
+        payload.put("model", "deepseek/deepseek-chat-v3-0324:free");
         payload.put("messages", List.of(Map.of("role", "user", "content", prompt)));
         payload.put("max_tokens", 200);
 

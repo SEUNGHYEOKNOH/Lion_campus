@@ -6,14 +6,17 @@ spring:
     password: ${local-db.mysql.password}
 
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
         highlight_sql: true
-        hbm2ddl.auto: create
         default_batch_fetch_size: 100
     show-sql: true
     open-in-view: false
+
 
 logging:
   level:
