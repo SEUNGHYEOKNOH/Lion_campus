@@ -5,63 +5,63 @@ import styled from "styled-components";
 import { ArrowRightCircle } from "lucide-react";
 import tagImg1 from "../assets/tagImg1.png";
 import Footer from "../components/Layout/Footer";
-
-
-import { useEffect, useState } from "react";
+// import axios from "axios";
+// import { useEffect } from "react";
+import { Link } from "react-router-dom";
 // import { useRecoilValue } from "recoil";
 
 const Main = () => {
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
-
-
-
-  useEffect(() => {
-    console.log("유즈 이펙트 작동");
-  }, []);
-
-  // const [userData,setUserData] = useState("")
-
-  // const apiChecker = () => {
-  //   console.log();
+  // const takeInfo = async () => {
+  //   const res = await axios.get(`${BASE_URL}/api/oauth2/code/google`, {
+  //     withCredentials: true,
+  //   });
+  //   console.log(res.data); // => 사용자 정보 (id, email 등)
   // };
+
 
   return (
     <div>
       <Header>상단헤더 자리</Header>
-      {/* <button onClick={test}></button> */}
+      {/* <button onClick={takeInfo}>api 테스트 버튼</button> */}
       <Body>
         <Text1>
           <p className="MainTitle1">
             로그인 후 발자취를
             <br />
-            기록하고 공유해보세요ㅁ
+            기록하고 공유해보세요
           </p>
         </Text1>
         <RouteCardGrid>
-          <FeatureCard style={{ backgroundColor: "#e0edff" }}>
-            <div className="Headline4" style={{ fontWeight: 600 }}>
-              마일스톤
-            </div>
-            <div style={{ fontSize: "12px", color: "#000000" }}>
-              나의 기록을 한번에 볼 수 있어요
-            </div>
-            <ArrowWrapper>
-              보러가기
-              <ArrowRightCircle />
-            </ArrowWrapper>
-          </FeatureCard>
-          <FeatureCard style={{ backgroundColor: "#aecce9" }}>
-            <div className="Headline4" style={{ fontWeight: 600 }}>
-              글쓰기
-            </div>
-            <div style={{ fontSize: "12px", color: "#000000" }}>
-              게시글을 작성할 수 있어요
-            </div>
-            <ArrowWrapper>
-              포스팅하기
-              <ArrowRightCircle />
-            </ArrowWrapper>
-          </FeatureCard>
+          <Link to="/milestone">
+            <FeatureCard style={{ backgroundColor: "#e0edff" }}>
+              <div className="Headline4" style={{ fontWeight: 600 }}>
+                마일스톤
+              </div>
+              <div style={{ fontSize: "12px", color: "#000000" }}>
+                나의 기록을 한번에 볼 수 있어요
+              </div>
+              <ArrowWrapper>
+                보러가기
+                <ArrowRightCircle />
+              </ArrowWrapper>
+            </FeatureCard>
+          </Link>
+          <Link to="/write">
+            <FeatureCard style={{ backgroundColor: "#aecce9" }}>
+              <div className="Headline4" style={{ fontWeight: 600 }}>
+                글쓰기
+              </div>
+              <div style={{ fontSize: "12px", color: "#000000" }}>
+                게시글을 작성할 수 있어요
+              </div>
+              <ArrowWrapper>
+                포스팅하기
+                <ArrowRightCircle />
+              </ArrowWrapper>
+            </FeatureCard>
+          </Link>
           <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
             <div className="Headline4" style={{ fontWeight: 600 }}>
               해시태그 구독하기
@@ -88,7 +88,7 @@ const Main = () => {
           <TagCard1>
             <CardHeader>
               <CategoryBadge>진로</CategoryBadge>
-              <RankChange rise>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
+              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
             </CardHeader>
             <HashTag>#경찰</HashTag>
             <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
@@ -96,7 +96,7 @@ const Main = () => {
           <TagCard1>
             <CardHeader>
               <CategoryBadge>진로</CategoryBadge>
-              <RankChange rise>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
+              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
             </CardHeader>
             <HashTag>#경찰</HashTag>
             <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
@@ -104,7 +104,7 @@ const Main = () => {
           <TagCard1>
             <CardHeader>
               <CategoryBadge>진로</CategoryBadge>
-              <RankChange rise>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
+              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
             </CardHeader>
             <HashTag>#경찰</HashTag>
             <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
@@ -112,7 +112,7 @@ const Main = () => {
           <TagCard1>
             <CardHeader>
               <CategoryBadge>진로</CategoryBadge>
-              <RankChange rise>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
+              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
             </CardHeader>
             <HashTag>#경찰</HashTag>
             <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
@@ -198,6 +198,10 @@ const FeatureCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  &:hover {
+    transform: translateY(-4px);
+    transition: 0.2s ease;
+  }
 `;
 const ArrowWrapper = styled.div`
   display: flex;
