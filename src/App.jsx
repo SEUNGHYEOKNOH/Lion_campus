@@ -4,13 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./Pages/Main";
 import routes from "./router/router";
 import "./styles/Global.css";
-import { RecoilRoot } from "recoil";
+
 
 const { publicRoutes, AuthenticateRoutes } = routes;
 
 function App() {
   return (
-    <RecoilRoot>
+    
       <Routes>
         {publicRoutes.map((route, idx) => (
           <Route key={idx} path={route.path} element={route.element} />
@@ -19,7 +19,7 @@ function App() {
           <Route key={idx} path={route.path} element={route.element} />;
         })}
       </Routes>
-    </RecoilRoot>
+ 
   );
 }
 

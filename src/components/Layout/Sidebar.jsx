@@ -12,20 +12,35 @@ const Sidebar = () => {
           <img src={logo} alt="MAKER Logo" />
         </Link>
       </LogoWrapper>
-      <Menu>
-        <StyledLink
-          to="/mypage/edit"
-          $active={location.pathname === "/mypage/edit"}
-        >
-          개인정보 수정
-        </StyledLink>
-        <StyledLink
-          to="/mypage/delete"
-          $active={location.pathname === "/mypage/delete"}
-        >
-          회원탈퇴
-        </StyledLink>
-      </Menu>
+
+      {location.pathname == "/mypage" ? (
+        <Menu>
+          <StyledLink to="/mypage" $active={location.pathname === "/mypage"}>
+            개인정보 수정
+          </StyledLink>
+          <StyledLink
+            to="/mypage/delete"
+            $active={location.pathname === "/mypage/delete"}
+          >
+            회원탈퇴
+          </StyledLink>
+        </Menu>
+      ) : (
+        <Menu>
+          <StyledLink
+            to="/milestone"
+            $active={location.pathname === "/milestone"}
+          >
+            내 활동 기록
+          </StyledLink>
+          <StyledLink
+            to="/mypage/delete"
+            $active={location.pathname === "/mypage"}
+          >
+            글 관리
+          </StyledLink>
+        </Menu>
+      )}
     </SidebarWrapper>
   );
 };
@@ -44,8 +59,8 @@ const SidebarWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-margin-top: 3rem;  
-margin-bottom: 4rem;
+  margin-top: 3rem;
+  margin-bottom: 4rem;
 
   img {
     width: 15rem;

@@ -1,13 +1,24 @@
 // components/Layout/Header.jsx
-import React from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { LogIn, LogOut, Search } from "lucide-react";
+import { isLoggedInState } from "../../atoms/authState";
+import { useRecoilState } from "recoil";
+// import { isLoggedInState } from "../recoil/authState";
+
+// const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+
+  const handleLogout = () => {
+    setIsLoggedIn((prev) => !prev);
+  };
+
   return (
     <Head>
+      {/* <div onClick={handleLogout}>테스트용 로그인 버튼</div> */}
       <LogoWrapper>
         <Link to="/">
           <img src={logo} alt="로고" />
@@ -20,15 +31,25 @@ const Header = () => {
           <Search />
         </SearchButton>
       </SearchContainer>
-
-      <Btns>
-        <Link to="/login">
-          <div>로그인</div>
-        </Link>
-        <Link to="/signup">
-          <div>회원가입</div>
-        </Link>
-      </Btns>
+      {isLoggedIn ? (
+        <Btns>
+          <Link to="/mypage">
+            <div>마이페이지</div>
+          </Link>
+          <div onClick={handleLogout}>
+            <div>로그아웃</div>
+          </div>
+        </Btns>
+      ) : (
+        <Btns>
+          <Link to="/login">
+            <div>로그인</div>
+          </Link>
+          <Link to="/signup">
+            <div>회원가입</div>
+          </Link>
+        </Btns>
+      )}
     </Head>
   );
 };

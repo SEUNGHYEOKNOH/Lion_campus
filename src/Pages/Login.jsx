@@ -1,12 +1,10 @@
-// LoginPage.jsx
-import React from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.png"; // Maker 로고 이미지 위치에 맞게 수정
-import Header from "../components/Layout/Header";
 import google from "../assets/google.png";
 import naver from "../assets/naver.png";
 import kakao from "../assets/kakao.png";
 import { Link } from "react-router-dom";
+import { loginWithGoogle } from "../api/auth";
 
 const LoginPage = () => {
   return (
@@ -20,7 +18,7 @@ const LoginPage = () => {
         <Input type="password" placeholder="비밀번호" />
         <LoginButton>로그인</LoginButton>
         <SocialLogin>
-          <Icon src={google} alt="Google" />
+          <Icon src={google} alt="Google" onClick={loginWithGoogle} />
           <Icon src={naver} alt="Naver" />
           <Icon src={kakao} alt="Kakao" />
         </SocialLogin>
