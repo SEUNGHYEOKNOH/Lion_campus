@@ -5,16 +5,14 @@ import styled from "styled-components";
 import { ArrowRightCircle } from "lucide-react";
 import tagImg1 from "../assets/tagImg1.png";
 import Footer from "../components/Layout/Footer";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import FloatedMenu from "../components/Common/FloatedMenu";
+// import {useState} from 'react'
 
-
-import { useEffect, useState } from "react";
 // import { useRecoilValue } from "recoil";
 
 const Main = () => {
-
-
-
-
   useEffect(() => {
     console.log("유즈 이펙트 작동");
   }, []);
@@ -27,6 +25,10 @@ const Main = () => {
 
   return (
     <div>
+      <Link to="/mypage">
+        <button>마이페이지</button>
+      </Link>
+
       <Header>상단헤더 자리</Header>
       {/* <button onClick={test}></button> */}
       <Body>
@@ -34,7 +36,7 @@ const Main = () => {
           <p className="MainTitle1">
             로그인 후 발자취를
             <br />
-            기록하고 공유해보세요ㅁ
+            기록하고 공유해보세요
           </p>
         </Text1>
         <RouteCardGrid>
@@ -167,7 +169,7 @@ const Main = () => {
           </NewsCard>
         </NewsGrid>
       </Body>
-
+      <FloatedMenu />
       <Footer />
     </div>
   );
