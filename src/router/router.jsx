@@ -1,22 +1,35 @@
 import Login from "../Pages/Login";
 import Main from "../Pages/Main";
 import SignUp from "../Pages/SignUp";
+import Milestone from "../Pages/Milestone";
+import MyPage from "../Pages/MyPage";
+import Write from "../Pages/Write";
 
 const publicRoutes = [
   {
     path: "/",
     element: <Main />,
-    layoutType: "none",
   },
   {
     path: "/login",
     element: <Login />,
-    layoutType: "none",
   },
   {
     path: "/signup",
     element: <SignUp />,
-    layoutType: "none",
+  },
+
+  {
+    path: "/milestone",
+    element: <Milestone />,
+  },
+  {
+    path: "/mypage",
+    element: <MyPage />,
+  },
+  {
+    path: "/write",
+    element: <Write />,
   },
 ];
 
