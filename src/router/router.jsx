@@ -8,6 +8,7 @@ import Milestone from "../Pages/Milestone";
 import MyPage from "../Pages/MyPage";
 import Write from "../Pages/Write";
 
+
 const publicRoutes = [
   {
     path: "/",

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { ArrowRightCircle } from "lucide-react";
 import tagImg1 from "../assets/tagImg1.png";
 import Footer from "../components/Layout/Footer";
+import FloatedMenu from "../components/Common/FloatedMenu";
 // import axios from "axios";
 // import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -169,6 +170,7 @@ const Main = () => {
       </Body>
 
       <Footer />
+      <FloatedMenu/>
     </div>
   );
 };

@@ -2,8 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styled from "styled-components";
 
-const Sidebar = () => {
+const Sidebar = ({ selected, onSelect }) => {
   const location = useLocation();
+  // 부모 요소에서 선언
+  // const [selected, setSelected] = useState("edit");
 
   return (
     <SidebarWrapper>
@@ -15,12 +17,21 @@ const Sidebar = () => {
 
       {location.pathname == "/mypage" ? (
         <Menu>
-          <StyledLink to="/mypage" $active={location.pathname === "/mypage"}>
+          <StyledLink
+            $active={selected == "edit"}
+            onClick={() => {
+              onSelect("edit");
+              console.log("개인정보수정 클릭됨");
+            }}
+          >
             개인정보 수정
           </StyledLink>
           <StyledLink
-            to="/mypage/delete"
-            $active={location.pathname === "/mypage/delete"}
+            $active={selected == "delete"}
+            onClick={() => {
+              onSelect("delete");
+              console.log("회원탈퇴 클릭됨");
+            }}
           >
             회원탈퇴
           </StyledLink>
@@ -28,14 +39,20 @@ const Sidebar = () => {
       ) : (
         <Menu>
           <StyledLink
-            to="/milestone"
-            $active={location.pathname === "/milestone"}
+            $active={selected == "milestone"}
+            onClick={() => {
+              onSelect("milestone");
+              console.log("마일스톤 클릭됨");
+            }}
           >
-            내 활동 기록
+            내 활동기록
           </StyledLink>
           <StyledLink
-            to="/mypage/delete"
-            $active={location.pathname === "/mypage"}
+            $active={selected == "managepost"}
+            onClick={() => {
+              onSelect("managepost");
+              console.log("글관리 클릭됨");
+            }}
           >
             글 관리
           </StyledLink>
@@ -48,7 +65,7 @@ const Sidebar = () => {
 export default Sidebar;
 
 const SidebarWrapper = styled.div`
-  width: 20rem;
+  min-width: 20rem;
   height: 100vh;
   background-color: #f7f8fa;
   display: flex;
