@@ -4,9 +4,13 @@ import google from "../assets/google.png";
 import naver from "../assets/naver.png";
 import kakao from "../assets/kakao.png";
 import { Link } from "react-router-dom";
-import { loginWithGoogle } from "../api/auth";
+// import { loginWithGoogle } from "../api/auth";
 
 const LoginPage = () => {
+  const loginWithGoogle = (provider) => {
+    window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
+  };
+
   return (
     <Wrapper>
       <LoginBox>
@@ -18,9 +22,19 @@ const LoginPage = () => {
         <Input type="password" placeholder="비밀번호" />
         <LoginButton>로그인</LoginButton>
         <SocialLogin>
-          <Icon src={google} alt="Google" onClick={loginWithGoogle} />
-          <Icon src={naver} alt="Naver" />
-          <Icon src={kakao} alt="Kakao" />
+          <Icon
+            src={google}
+            alt="Google"
+            onClick={() => {
+              loginWithGoogle("google");
+            }}
+          />
+          <Icon src={naver} alt="Naver" onClick={() => {
+              loginWithGoogle("naver");
+            }} />
+          <Icon src={kakao} alt="Kakao" onClick={() => {
+              loginWithGoogle("kakao");
+            }} />
         </SocialLogin>
         <SubMenu>
           <a href="#">회원가입</a> | <a href="#">비밀번호 찾기</a> |{" "}
