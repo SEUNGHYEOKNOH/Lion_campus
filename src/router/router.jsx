@@ -6,8 +6,7 @@ import DetailPostPage from "../Pages/DetailPostPage";
 import SignUp from "../Pages/SignUp";
 import Milestone from "../Pages/Milestone";
 import MyPage from "../Pages/MyPage";
-import Write from "../Pages/Write";
-
+import WritePost from "../Pages/WritePost";
 
 const publicRoutes = [
   {
@@ -48,7 +47,7 @@ const publicRoutes = [
   },
   {
     path: "/write",
-    element: <Write />,
+    element: <WritePost />,
   },
 ];
 
