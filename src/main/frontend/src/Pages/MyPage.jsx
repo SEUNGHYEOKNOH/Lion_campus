@@ -5,6 +5,8 @@ import cryA from "../assets/A_cry.png";
 import { userAPI } from "../utils/api";
 import { isLoggedIn, clearTokens } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { put } from '../utils/api'; // 또는 상대 경로에 따라 조정
+
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -37,6 +39,7 @@ const MyPage = () => {
       setLoading(true);
       const userData = await userAPI.getCurrentUser();
       setUserInfo({
+        id: userData.id || '',
         name: userData.name || '',
         email: userData.email || '',
         nickname: userData.nickname || '',
@@ -107,6 +110,29 @@ const MyPage = () => {
     }
   };
 
+
+const handleGenerateTagsFromCareer = async () => {
+  const career = userInfo.career?.trim();
+  if (!career) {
+    alert("희망진로를 입력해주세요.");
+    return;
+  }
+
+  try {
+    // 이미 만들어진 put() 함수 사용
+    await put(`/api/recommend/user/${userInfo.id}`, [career]);
+
+    alert("태그가 성공적으로 생성되었습니다. 새로고침 후 확인하세요.");
+
+    // 또는 생성 후 새로 유저 정보 불러오기:
+     await fetchUserInfo();
+  } catch (err) {
+    console.error("태그 생성 오류:", err);
+    alert("태그 생성에 실패했습니다.");
+  }
+};
+  
+
   if (loading) {
     return (
       <PageWrapper>
@@ -176,6 +202,7 @@ const MyPage = () => {
                   onChange={(e) => handleInputChange('career', e.target.value)}
                   placeholder="희망진로를 입력하세요"
                 />
+                <TagButton onClick={handleGenerateTagsFromCareer}>태그 생성</TagButton>
               </FormRow>
               {userInfo.tags && userInfo.tags.length > 0 && (
                 <FormRow>
@@ -414,4 +441,12 @@ const TagItem = styled.span`
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
+`;
+const TagButton = styled.button`
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  border: 1px solid #888;
+  cursor: pointer;
 `;
