@@ -176,7 +176,6 @@ const MyPage = () => {
                   onChange={(e) => handleInputChange('career', e.target.value)}
                   placeholder="희망진로를 입력하세요"
                 />
-                <TagButton type="button">태그추가</TagButton>
               </FormRow>
               {userInfo.tags && userInfo.tags.length > 0 && (
                 <FormRow>
@@ -276,15 +275,6 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 6px;
   background-color: ${(props) => (props.readOnly ? "#f2f2f2" : "white")};
-`;
-
-const TagButton = styled.button`
-  padding: 8px 12px;
-  font-size: 13px;
-  border-radius: 6px;
-  background-color: #ffffff;
-  border: 1px solid #888;
-  cursor: pointer;
 `;
 
 const ButtonGroup = styled.div`

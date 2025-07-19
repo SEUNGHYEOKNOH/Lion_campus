@@ -20,23 +20,23 @@ const Main = () => {
   useEffect(() => {
     const hasTokens = extractAndSaveTokensFromUrl();
     if (hasTokens) {
-      console.log('OAuth 로그인이 완료되었습니다.');
-      
+      console.log("OAuth 로그인이 완료되었습니다.");
+
       // 로그인 성공 후 사용자 정보 확인
       const fetchUserInfo = async () => {
         try {
           const userInfo = await userAPI.getCurrentUser();
-          console.log('로그인한 사용자 정보:', userInfo);
-          
+          console.log("로그인한 사용자 정보:", userInfo);
+
           // GUEST 역할인 경우 추가 정보 입력이 필요할 수 있음
-          if (userInfo.role === 'GUEST') {
-            console.log('추가 정보 입력이 필요한 사용자입니다.');
+          if (userInfo.role === "GUEST") {
+            console.log("추가 정보 입력이 필요한 사용자입니다.");
           }
         } catch (error) {
-          console.error('사용자 정보 조회 실패:', error);
+          console.error("사용자 정보 조회 실패:", error);
         }
       };
-      
+
       fetchUserInfo();
     }
   }, []);
@@ -47,7 +47,6 @@ const Main = () => {
   //   });
   //   console.log(res.data); // => 사용자 정보 (id, email 등)
   // };
-
 
   return (
     <div>
@@ -197,7 +196,7 @@ const Main = () => {
       </Body>
 
       <Footer />
-      <FloatedMenu/>
+      <FloatedMenu />
     </div>
   );
 };
@@ -220,8 +219,8 @@ const FeatureCard = styled.div`
   background-color: ${({ bgColor }) => bgColor || "#f5f5f5"};
   border-radius: 1rem;
   padding: 1.2rem;
-  width: 25%;
-  min-width: 240px;
+  width: 25vw;
+  min-width: 15rem;
   height: 160px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   display: flex;
@@ -255,6 +254,7 @@ const ArrowWrapper = styled.div`
 
 const Text1 = styled.div`
   font-weight: 500;
+  margin-top: 4rem;
   margin-left: 10%;
   margin-bottom: 2rem;
 `;
@@ -273,7 +273,8 @@ const TagCardGrid = styled.div`
 `;
 
 const TagCard1 = styled.div`
-  width: 23%;
+  width: 19.5vw;
+  min-width: 7rem;
   height: 200px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);

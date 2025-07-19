@@ -78,7 +78,7 @@ const Head = styled.header`
 const LogoWrapper = styled.div`
   flex-shrink: 0;
   img {
-    height: 50px;
+    height: 4rem;
   }
   margin-left: 12px;
 `;
@@ -117,4 +117,5 @@ const SearchButton = styled.button`
 const Btns = styled.div`
   display: flex;
   gap: 20px;
+  min-width: 10rem;
 `;
