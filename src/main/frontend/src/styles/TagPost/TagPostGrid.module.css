@@ -1,0 +1,9 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 두 개씩 */
+    gap: 24px;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }

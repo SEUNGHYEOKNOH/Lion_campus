@@ -1,0 +1,8 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
+  gap: 16px; /* 카드 사이 간격 줄이기 */
+  max-width: 1024px; /* 화면 너비 제한 */
+  margin: 0 auto;
+  padding: 0 12px;
+}
