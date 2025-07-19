@@ -88,21 +88,23 @@ const Main = () => {
                 <ArrowRightCircle />
               </ArrowWrapper>
             </FeatureCard>
+          </Link >
+          <Link to="/tags" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
+              <div className="Headline4" style={{ fontWeight: 600 }}>
+                해시태그 구독하기
+              </div>
+              <div style={{ fontSize: "12px", color: "#000000" }}>
+                관심 있는 해시태그를 구독하고
+                <br />
+                소식을 받아보세요.
+              </div>
+              <ArrowWrapper>
+                둘러보기
+                <ArrowRightCircle />
+              </ArrowWrapper>
+            </FeatureCard>
           </Link>
-          <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
-            <div className="Headline4" style={{ fontWeight: 600 }}>
-              해시태그 구독하기
-            </div>
-            <div style={{ fontSize: "12px", color: "#000000" }}>
-              관심 있는 해시태그를 구독하고
-              <br />
-              소식을 받아보세요.
-            </div>
-            <ArrowWrapper>
-              둘러보기
-              <ArrowRightCircle />
-            </ArrowWrapper>
-          </FeatureCard>
         </RouteCardGrid>
         <Text2>
           <p className="MainTitle1">
