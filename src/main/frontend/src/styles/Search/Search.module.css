@@ -1,0 +1,57 @@
+.sortToggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 20px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .sortToggle button {
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-weight: 500;
+  }
+  
+  .sortToggle button:hover {
+    color: #007bff;
+  }
+  
+  .active {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .separator {
+    margin: 0 6px;
+    color: #ccc;
+  }
+.pageContainer {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.ratingBox {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  color: #555;
+}
+
+.ratingValue {
+  font-weight: bold;
+}
+
+.ratingCount {
+  font-size: 0.9rem;
+}
