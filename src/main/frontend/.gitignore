@@ -1,23 +1,48 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
+### macOS ###
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+*.icloud
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+### Node/React ###
+node_modules/
+bower_components/
+dist/
+.build/
+
+*.log
+logs/
+*.sublime*
+*.backup.*
+*.back.*
+
+# 디자인 파일
+*.psd
+*.sketch
+thumb
+
+# 환경 파일
+.env
+
+# macOS
+.DS_Store
+node_modules/.DS_Store
+
+# Node-related
+node_modules/
+package-lock.json
+node_modules/.package-lock.json
