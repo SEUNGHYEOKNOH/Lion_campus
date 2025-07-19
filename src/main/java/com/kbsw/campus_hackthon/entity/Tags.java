@@ -22,6 +22,9 @@ public class Tags {
     @Column(name = "koreanName")
     private String koreanName;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "career_item_id")
     @JsonIgnore

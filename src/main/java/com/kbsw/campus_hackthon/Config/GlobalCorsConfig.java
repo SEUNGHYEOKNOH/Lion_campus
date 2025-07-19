@@ -15,7 +15,7 @@ public class GlobalCorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // 또는 setAllowedOriginPatterns
+        config.setAllowedOrigins(List.of("http://localhost:3000")); // 또는 setAllowedOriginPatterns
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
