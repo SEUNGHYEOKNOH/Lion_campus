@@ -15,4 +15,8 @@ public abstract class OAuth2UserInfo {
     public abstract String getNickname();
 
     public abstract String getImageUrl();
+
+    public abstract String getEmail(); //소셜 로그인 이메일 정보
+
+    public abstract String getName(); //소셜 로그인 실명 정보
 }
