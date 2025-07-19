@@ -11,6 +11,17 @@ const LoginPage = () => {
     window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
   };
 
+    //   const fetchUserInfo = async (token) => {
+    // try {
+    //   const response = await fetch('http://wonokim.iptime.org:4000/api/v1/auth/profile', {
+    //     method: 'GET',
+    //     headers: {
+    //       Authorization: Bearer ${token},
+    //       'Content-Type': 'application/json'
+    //     }
+    //   });
+    
+
   return (
     <Wrapper>
       <LoginBox>
