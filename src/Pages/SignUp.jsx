@@ -1,8 +1,6 @@
 const SignUp = () => {
   return (
-  <Whole>
-    
-    </Whole>);
+<div></div>);
 };
 
 export default SignUp;

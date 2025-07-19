@@ -1,15 +1,19 @@
-// import { useNavigate } from "react-router-dom";
-import Header from "../components/Layout/Header";
-import DefaultCard from "../components/Common/Card";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ArrowRightCircle } from "lucide-react";
-import tagImg1 from "../assets/tagImg1.png";
+import axios from "axios";
+
+import Header from "../components/Layout/Header";
 import Footer from "../components/Layout/Footer";
+import DefaultCard from "../components/Common/Card";
 import FloatedMenu from "../components/Common/FloatedMenu";
-// import axios from "axios";
-// import { useEffect } from "react";
-import { Link } from "react-router-dom";
-// import { useRecoilValue } from "recoil";
+import tagImg1 from "../assets/tagImg1.png";
+
+import { useRecoilState } from "recoil";
+import { isLoggedInState } from "../atoms/authState";
+
+import { setTokens, isAuthenticated } from "../api/auth";
 
 const Main = () => {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
@@ -21,11 +25,65 @@ const Main = () => {
   //   console.log(res.data); // => 사용자 정보 (id, email 등)
   // };
 
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const accessToken = params.get("accessToken");
+    const refreshToken = params.get("refreshToken");
+
+    if (accessToken) {
+      setTokens(accessToken, refreshToken || "");
+      navigate("/", { replace: true });
+      setIsLoggedIn(true);
+      console.log(
+        "로그인 ?",
+        isLoggedIn,
+        "엑세스",
+        accessToken,
+        "리프레쉬",
+        refreshToken
+      );
+    } else {
+      setIsLoggedIn(isAuthenticated());
+    }
+  }, [navigate]);
+
+  const getUserRecommendation = async (id) => {
+    try {
+      const url = `${BASE_URL}/api/recommend/user/${id}`;
+      const res = await axios.put(url,{})
+      console.log("추천 정보:", res.data);
+    } catch (error) {
+      console.error("추천 정보 불러오기 실패:", error);
+    }
+  }
+  
+
+  // const fetchPostsByTag = async (tagName) => {
+  //   try {
+  //     const url = `${BASE_URL}/api/posts/tag/${tagName}`;
+  //     console.log("🔗 요청 URL:", url); // URL 로그 찍기
+  //     const res = await axios.get(url);
+  //     console.log("📥 응답 데이터:", res.data);
+  //     return res.data;
+  //   } catch (error) {
+  //     console.error("❌ fetchPostsByTag 실패:", error.response || error);
+  //     return [];
+  //   }
+  // };
 
   return (
     <div>
       <Header>상단헤더 자리</Header>
-      {/* <button onClick={takeInfo}>api 테스트 버튼</button> */}
+      <button
+        onClick={() => {
+          getUserRecommendation();
+        }}
+      >
+        api 테스트 버튼
+      </button>
       <Body>
         <Text1>
           <p className="MainTitle1">
@@ -129,7 +187,9 @@ const Main = () => {
         </Text2>
         <NewsGrid>
           <NewsCard
-            style={{ background: "linear-gradient(180deg, #0a1f3d, #274c6e)" }}
+            style={{
+              background: "linear-gradient(180deg, #0a1f3d, #274c6e)",
+            }}
           >
             <div>
               <NewsTitle>새 소식</NewsTitle>
@@ -149,7 +209,9 @@ const Main = () => {
           </NewsCard>
 
           <NewsCard
-            style={{ background: "linear-gradient(180deg, #0d2546, #193857)" }}
+            style={{
+              background: "linear-gradient(180deg, #0d2546, #193857)",
+            }}
           >
             <NewsTitle>현직자가 알려주는 직무 경험 쌓는 법</NewsTitle>
             <ReadMore>
@@ -158,7 +220,9 @@ const Main = () => {
           </NewsCard>
 
           <NewsCard
-            style={{ background: "linear-gradient(180deg, #253c5b, #5c768e)" }}
+            style={{
+              background: "linear-gradient(180deg, #253c5b, #5c768e)",
+            }}
           >
             <NewsTitle>MAKER 똑똑하게 사용하기</NewsTitle>
             <NewsDesc>#취업 #활용자 #사용설명서</NewsDesc>
@@ -170,7 +234,7 @@ const Main = () => {
       </Body>
 
       <Footer />
-      <FloatedMenu/>
+      <FloatedMenu />
     </div>
   );
 };
