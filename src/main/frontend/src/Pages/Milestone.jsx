@@ -5,17 +5,53 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import MyPage from "./MyPage";
+import { userAPI } from "../utils/api";
+import { isLoggedIn } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const Milestone = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
   const [date, setDate] = useState(new Date());
-
-  // 프롭으로 던져진거 처리
   const [selected, setSelected] = useState("milestone");
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    school: '',
+    major: '',
+    career: ''
+  });
+  const [loading, setLoading] = useState(true);
 
-  // 페이지 진입 시 실행될 것들
-  useEffect(() => {}, []);
+  // 로그인 확인 및 사용자 정보 조회
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      navigate('/login');
+      return;
+    }
+
+    fetchUserInfo();
+  }, [navigate]);
+
+  // 사용자 정보 조회
+  const fetchUserInfo = async () => {
+    try {
+      setLoading(true);
+      const userData = await userAPI.getCurrentUser();
+      setUserInfo({
+        name: userData.name || '',
+        school: userData.school || '',
+        major: userData.major || '',
+        career: userData.career || ''
+      });
+    } catch (error) {
+      console.error('사용자 정보 조회 실패:', error);
+      if (error.message.includes('인증')) {
+        navigate('/login');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const posts = [
     {
@@ -49,6 +85,17 @@ const Milestone = () => {
 
   const data = activeTab === "all" ? posts : drafts;
 
+  if (loading) {
+    return (
+      <MilestoneContainer>
+        <Sidebar selected={selected} onSelect={setSelected} />
+        <ContentWrapper>
+          <LoadingWrapper>로딩 중...</LoadingWrapper>
+        </ContentWrapper>
+      </MilestoneContainer>
+    );
+  }
+
   return (
     <MilestoneContainer>
       <Sidebar selected={selected} onSelect={setSelected} />
@@ -57,12 +104,20 @@ const Milestone = () => {
         <ContentWrapper>
           <TopSection>
             <GoalCard>
-              <h3>ooo님의 목표 🔥</h3>
+              <h3>{userInfo.name ? `${userInfo.name}님의 목표` : '사용자님의 목표'} 🔥</h3>
               <ul>
-                <li>🎓 학력: 국립한국교원대학교 재학 중</li>
-                <li>📘 전공: 소프트웨어공학과</li>
-                <li>💼 진로: UX디자이너, 디자이너</li>
+                <li>🎓 학력: {userInfo.school ? `${userInfo.school} 재학 중` : '학교 정보를 입력해주세요'}</li>
+                <li>📘 전공: {userInfo.major || '전공 정보를 입력해주세요'}</li>
+                <li>💼 진로: {userInfo.career || '희망진로를 입력해주세요'}</li>
               </ul>
+              {(!userInfo.school || !userInfo.major || !userInfo.career) && (
+                <ProfileCompleteNotice>
+                  📝 프로필을 완성하여 더 나은 서비스를 받아보세요!{' '}
+                  <ProfileLink onClick={() => navigate('/mypage')}>
+                    마이페이지에서 설정하기
+                  </ProfileLink>
+                </ProfileCompleteNotice>
+              )}
             </GoalCard>
 
             <CalendarWrapper>
@@ -177,6 +232,27 @@ const GoalCard = styled.div`
   }
 `;
 
+const ProfileCompleteNotice = styled.div`
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #e3f2fd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1976d2;
+  border-left: 4px solid #2196f3;
+`;
+
+const ProfileLink = styled.span`
+  color: #1976d2;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: #0d47a1;
+  }
+`;
+
 const CalendarWrapper = styled.div`
   flex-shrink: 0;
   border-radius: 12px;
@@ -285,4 +361,13 @@ const MilestoneCard = styled.div`
     font-size: 14px;
     color: #666;
   }
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 18px;
+  color: #666;
 `;
