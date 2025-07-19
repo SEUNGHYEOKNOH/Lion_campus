@@ -225,3 +225,4 @@ public class TFIDFRecommenderService {
         log.info("📌 유저 프로필 저장 완료");
     }
 }
+
