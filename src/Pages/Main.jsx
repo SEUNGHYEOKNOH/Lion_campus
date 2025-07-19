@@ -8,7 +8,7 @@ import Footer from "../components/Layout/Footer";
 import FloatedMenu from "../components/Common/FloatedMenu";
 // import axios from "axios";
 // import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 // import { useRecoilValue } from "recoil";
 
 const Main = () => {
@@ -63,20 +63,22 @@ const Main = () => {
               </ArrowWrapper>
             </FeatureCard>
           </Link>
-          <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
-            <div className="Headline4" style={{ fontWeight: 600 }}>
-              해시태그 구독하기
-            </div>
-            <div style={{ fontSize: "12px", color: "#000000" }}>
-              관심 있는 해시태그를 구독하고
-              <br />
-              소식을 받아보세요.
-            </div>
-            <ArrowWrapper>
-              둘러보기
-              <ArrowRightCircle />
-            </ArrowWrapper>
-          </FeatureCard>
+          <Link to="/tags">
+            <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
+              <div className="Headline4" style={{ fontWeight: 600 }}>
+                해시태그 구독하기
+              </div>
+              <div style={{ fontSize: "12px", color: "#000000" }}>
+                관심 있는 해시태그를 구독하고
+                <br />
+                소식을 받아보세요.
+              </div>
+              <ArrowWrapper>
+                둘러보기
+                <ArrowRightCircle />
+              </ArrowWrapper>
+            </FeatureCard>
+          </Link>
         </RouteCardGrid>
         <Text2>
           <p className="MainTitle1">
