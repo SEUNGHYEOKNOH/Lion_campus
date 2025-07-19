@@ -7,12 +7,39 @@ import tagImg1 from "../assets/tagImg1.png";
 import Footer from "../components/Layout/Footer";
 import FloatedMenu from "../components/Common/FloatedMenu";
 // import axios from "axios";
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { extractAndSaveTokensFromUrl, isLoggedIn } from "../utils/auth";
+import { userAPI } from "../utils/api";
 // import { useRecoilValue } from "recoil";
 
 const Main = () => {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+
+  // OAuth 로그인 후 토큰 처리
+  useEffect(() => {
+    const hasTokens = extractAndSaveTokensFromUrl();
+    if (hasTokens) {
+      console.log('OAuth 로그인이 완료되었습니다.');
+      
+      // 로그인 성공 후 사용자 정보 확인
+      const fetchUserInfo = async () => {
+        try {
+          const userInfo = await userAPI.getCurrentUser();
+          console.log('로그인한 사용자 정보:', userInfo);
+          
+          // GUEST 역할인 경우 추가 정보 입력이 필요할 수 있음
+          if (userInfo.role === 'GUEST') {
+            console.log('추가 정보 입력이 필요한 사용자입니다.');
+          }
+        } catch (error) {
+          console.error('사용자 정보 조회 실패:', error);
+        }
+      };
+      
+      fetchUserInfo();
+    }
+  }, []);
 
   // const takeInfo = async () => {
   //   const res = await axios.get(`${BASE_URL}/api/oauth2/code/google`, {

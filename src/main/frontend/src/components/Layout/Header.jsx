@@ -1,19 +1,28 @@
 // components/Layout/Header.jsx
 import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { LogIn, LogOut, Search } from "lucide-react";
-import { isLoggedInState } from "../../atoms/authState";
-import { useRecoilState } from "recoil";
-// import { isLoggedInState } from "../recoil/authState";
+import { useState, useEffect } from "react";
+import { isLoggedIn, clearTokens } from "../../utils/auth";
 
 // const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
 
+  // 컴포넌트 마운트 시 로그인 상태 확인
+  useEffect(() => {
+    setLoggedIn(isLoggedIn());
+  }, []);
+
+  // 로그아웃 처리
   const handleLogout = () => {
-    setIsLoggedIn((prev) => !prev);
+    clearTokens();
+    setLoggedIn(false);
+    navigate('/');
+    alert('로그아웃되었습니다.');
   };
 
   return (
@@ -31,12 +40,12 @@ const Header = () => {
           <Search />
         </SearchButton>
       </SearchContainer>
-      {isLoggedIn ? (
+      {loggedIn ? (
         <Btns>
           <Link to="/mypage">
             <div>마이페이지</div>
           </Link>
-          <div onClick={handleLogout}>
+          <div onClick={handleLogout} style={{ cursor: 'pointer' }}>
             <div>로그아웃</div>
           </div>
         </Btns>

@@ -1,11 +1,119 @@
 import styled from "styled-components";
 import Sidebar from "../components/Layout/Sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import cryA from "../assets/A_cry.png";
+import { userAPI } from "../utils/api";
+import { isLoggedIn, clearTokens } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
-  // 프롭으로 던져진거 처리
+  const navigate = useNavigate();
   const [selected, setSelected] = useState("edit");
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    email: '',
+    nickname: '',
+    school: '',
+    major: '',
+    career: '',
+    tags: []
+  });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  // 로그인 확인 및 사용자 정보 조회
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      navigate('/login');
+      return;
+    }
+
+    fetchUserInfo();
+  }, [navigate]);
+
+  // 사용자 정보 조회
+  const fetchUserInfo = async () => {
+    try {
+      setLoading(true);
+      const userData = await userAPI.getCurrentUser();
+      setUserInfo({
+        name: userData.name || '',
+        email: userData.email || '',
+        nickname: userData.nickname || '',
+        school: userData.school || '',
+        major: userData.major || '',
+        career: userData.career || '',
+        tags: userData.tags || []
+      });
+    } catch (error) {
+      console.error('사용자 정보 조회 실패:', error);
+      if (error.message.includes('인증')) {
+        navigate('/login');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 입력값 변경 처리
+  const handleInputChange = (field, value) => {
+    setUserInfo(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // 사용자 정보 수정
+  const handleSubmit = async () => {
+    try {
+      setSaving(true);
+      // name과 email은 소셜 로그인에서 가져온 정보이므로 수정 요청에서 제외
+      const updatedUser = await userAPI.updateUser({
+        nickname: userInfo.nickname,
+        school: userInfo.school,
+        major: userInfo.major,
+        career: userInfo.career,
+        tags: userInfo.tags
+      });
+      
+      setUserInfo({
+        ...userInfo,
+        ...updatedUser
+      });
+      
+      alert('정보가 성공적으로 수정되었습니다.');
+    } catch (error) {
+      console.error('사용자 정보 수정 실패:', error);
+      alert('정보 수정에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // 회원 탈퇴
+  const handleDeleteAccount = async () => {
+    if (!window.confirm('정말로 탈퇴하시겠습니까? 모든 데이터가 삭제됩니다.')) {
+      return;
+    }
+
+    try {
+      await userAPI.deleteUser();
+      clearTokens();
+      alert('회원 탈퇴가 완료되었습니다.');
+      navigate('/');
+    } catch (error) {
+      console.error('회원 탈퇴 실패:', error);
+      alert('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  if (loading) {
+    return (
+      <PageWrapper>
+        <LoadingWrapper>로딩 중...</LoadingWrapper>
+      </PageWrapper>
+    );
+  }
 
   return (
     <PageWrapper>
@@ -18,23 +126,27 @@ const MyPage = () => {
             <FormGroup>
               <FormRow>
                 <Label>이름</Label>
-                <Input defaultValue="홍길동" />
+                <Input 
+                  value={userInfo.name || ''}
+                  readOnly
+                  placeholder="소셜 로그인으로 설정된 이름"
+                />
               </FormRow>
               <FormRow>
                 <Label>계정</Label>
-                <Input value="hong1234@maker.com" readOnly />
+                <Input 
+                  value={userInfo.email || ''} 
+                  readOnly 
+                  placeholder="소셜 로그인 계정"
+                />
               </FormRow>
               <FormRow>
-                <Label>전화번호</Label>
-                <Input defaultValue="01012345678" />
-              </FormRow>
-              <FormRow>
-                <Label>비밀번호</Label>
-                <Input type="password" placeholder="********" />
-              </FormRow>
-              <FormRow>
-                <Label>비밀번호 확인</Label>
-                <Input type="password" placeholder="********" />
+                <Label>닉네임</Label>
+                <Input 
+                  value={userInfo.nickname || ''}
+                  onChange={(e) => handleInputChange('nickname', e.target.value)}
+                  placeholder="닉네임을 입력하세요"
+                />
               </FormRow>
             </FormGroup>
 
@@ -43,22 +155,46 @@ const MyPage = () => {
             <FormGroup>
               <FormRow>
                 <Label>대학교</Label>
-                <Input />
+                <Input 
+                  value={userInfo.school || ''}
+                  onChange={(e) => handleInputChange('school', e.target.value)}
+                  placeholder="대학교를 입력하세요"
+                />
               </FormRow>
               <FormRow>
                 <Label>학과</Label>
-                <Input />
+                <Input 
+                  value={userInfo.major || ''}
+                  onChange={(e) => handleInputChange('major', e.target.value)}
+                  placeholder="학과를 입력하세요"
+                />
               </FormRow>
               <FormRow>
                 <Label>희망진로</Label>
-                <Input />
-                <TagButton>태그추가</TagButton>
+                <Input 
+                  value={userInfo.career || ''}
+                  onChange={(e) => handleInputChange('career', e.target.value)}
+                  placeholder="희망진로를 입력하세요"
+                />
+                <TagButton type="button">태그추가</TagButton>
               </FormRow>
+              {userInfo.tags && userInfo.tags.length > 0 && (
+                <FormRow>
+                  <Label>관심태그</Label>
+                  <TagContainer>
+                    {userInfo.tags.map((tag, index) => (
+                      <TagItem key={index}>{tag}</TagItem>
+                    ))}
+                  </TagContainer>
+                </FormRow>
+              )}
             </FormGroup>
 
             <ButtonGroup>
-              <SubmitButton>수정</SubmitButton>
-              <CancelButton>뒤로</CancelButton>
+              <SubmitButton onClick={handleSubmit} disabled={saving}>
+                {saving ? '저장 중...' : '수정'}
+              </SubmitButton>
+              <CancelButton onClick={() => navigate(-1)}>뒤로</CancelButton>
             </ButtonGroup>
           </Section>
         </MainContent>
@@ -70,8 +206,12 @@ const MyPage = () => {
             <Description>작성하신 게시물은 모두 삭제됩니다.</Description>
             <Image src={cryA} alt="경고 아이콘" />
             <Buttons>
-              <ConfirmBtn>예요, 확인 후 탈퇴하겠습니다.</ConfirmBtn>
-              <CancelBtn>아니요, 탈퇴하지 않겠습니다.</CancelBtn>
+              <ConfirmBtn onClick={handleDeleteAccount}>
+                예요, 확인 후 탈퇴하겠습니다.
+              </ConfirmBtn>
+              <CancelBtn onClick={() => setSelected('edit')}>
+                아니요, 탈퇴하지 않겠습니다.
+              </CancelBtn>
             </Buttons>
           </Box>
         </Content>
@@ -162,6 +302,15 @@ const SubmitButton = styled.button`
   border-radius: 6px;
   font-size: 15px;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #0c243b;
+  }
 `;
 
 const CancelButton = styled.button`
@@ -250,4 +399,29 @@ const CancelBtn = styled.button`
   &:hover {
     background-color: #f2f4f7;
   }
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #666;
+`;
+
+const TagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+`;
+
+const TagItem = styled.span`
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
 `;
