@@ -26,9 +26,17 @@ const Main = () => {
 
   const [userTags, setUserTags] = useState([]);
 
+  // 🔧 Firebase 이미지 URL 생성 함수
+  const getFirebaseImageUrl = (tagName) => {
+    const encoded = encodeURIComponent(`${tagName}.png`);
+    return `https://firebasestorage.googleapis.com/v0/b/web-kit-69b0d/o/${encoded}?alt=media`;
+  };
+
+  // ✅ 사용자 및 태그 정보 불러오기
   useEffect(() => {
     const initUser = async () => {
       const savedUser = localStorage.getItem("userInfo");
+  
       if (savedUser) {
         const parsed = JSON.parse(savedUser);
         setUserInfo(parsed);
@@ -37,14 +45,13 @@ const Main = () => {
           const tags = await fetchUserTags(parsed.id);
           if (Array.isArray(tags)) {
             setUserTags(tags);
-          } else {
-            console.warn("❌ 태그 응답 형식이 잘못됨:", tags);
           }
         } catch (err) {
           console.error("❌ 태그 로딩 실패:", err);
         }
+  
       } else {
-        // URL에 토큰 있으면 저장
+        // 토큰 추출 시도
         const hasTokens = extractAndSaveTokensFromUrl();
         const accessToken = localStorage.getItem("accessToken");
   
@@ -60,14 +67,16 @@ const Main = () => {
             }
           } catch (err) {
             console.error("❌ 사용자 정보 또는 태그 로딩 실패:", err);
+            // ❗ 로그인 페이지로 이동하거나 알림 처리도 가능
           }
+        } else {
+          console.warn("⚠️ 토큰도 없고 저장된 사용자 정보도 없습니다.");
         }
       }
     };
   
     initUser();
   }, []);
-  
 
   const handleCardClick = (tagEn) => {
     if (tagEn) {
@@ -124,14 +133,17 @@ const Main = () => {
         </Text2>
 
         <TagCardGrid>
-          {userTags.map((tag, idx) => (
+          {userTags.slice(0, 5).map((tag, idx) => (
             <TagCard1 key={idx} onClick={() => handleCardClick(tag.tagName)}>
               <CardHeader>
                 <CategoryBadge>{tag.koreanName}</CategoryBadge>
                 <RankChange>▲ TOP {idx + 1}</RankChange>
               </CardHeader>
               <HashTag>#{tag.tagName}</HashTag>
-              <Thumbnail src={tag.imageUrl || tagImg1} alt={`${tag.tagName} 썸네일`} />
+              <Thumbnail
+                src={tag.imageUrl || getFirebaseImageUrl(tag.tagName)}
+                alt={`${tag.tagName} 썸네일`}
+              />
             </TagCard1>
           ))}
         </TagCardGrid>

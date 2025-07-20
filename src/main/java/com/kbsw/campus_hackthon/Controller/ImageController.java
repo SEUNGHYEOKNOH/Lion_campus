@@ -56,4 +56,31 @@ public class ImageController {
         return ResponseEntity.status(302).header("Location", imageUrl).build();
     }
 
+    @GetMapping("/generate-url")
+    @Operation(
+            summary = "CareerItem 이미지 경로로 다운로드 URL 생성",
+            description = "Firebase Storage에 저장된 CareerItem 이미지 경로를 이용해 인증된 다운로드 URL을 반환합니다."
+    )
+    public ResponseEntity<Map<String, String>> generateDownloadUrl(@RequestParam("path") String path) {
+        Bucket bucket = StorageClient.getInstance().bucket();
+        Blob blob = bucket.get(path); // 예: "career/spring.png"
+
+        if (blob == null || !blob.exists()) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "해당 경로에 파일이 존재하지 않습니다.");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        // 다운로드 가능한 public URL 생성
+        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/"
+                + bucket.getName()
+                + "/o/"
+                + path.replace("/", "%2F")
+                + "?alt=media";
+
+        Map<String, String> result = new HashMap<>();
+        result.put("imageUrl", imageUrl);
+        return ResponseEntity.ok(result);
+    }
+
 }

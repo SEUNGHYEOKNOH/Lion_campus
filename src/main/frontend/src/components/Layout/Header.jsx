@@ -20,6 +20,7 @@ const Header = () => {
   // 로그아웃 처리
   const handleLogout = () => {
     clearTokens();
+    localStorage.removeItem("userInfo"); // 🔥 userInfo도 제거
     setLoggedIn(false);
     navigate("/");
     alert("로그아웃되었습니다.");
