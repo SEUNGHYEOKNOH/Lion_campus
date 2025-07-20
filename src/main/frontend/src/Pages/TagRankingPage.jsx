@@ -18,7 +18,7 @@ export default function TagRankingPage() {
       tagEn: tag.tagName || tag,
       rank: index + 1,
       rating: Math.random() * 2 + 3,
-      imageUrl: tag.imageUrl,
+      imageUrl: tag.imageUrl
     }));
     setTags(enriched);
   };
@@ -45,6 +45,7 @@ export default function TagRankingPage() {
   useEffect(() => {
     if (sortType === 'popular') {
       loadAllTags();
+      console.log(userId);
       setIsCustom(false); // 맞춤형 상태 해제
     }
   }, [sortType]);

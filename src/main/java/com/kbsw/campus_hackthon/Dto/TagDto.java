@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TagDto {
+    private Long id;  // 태그 ID
     private String tagName;     // 영어
     private String koreanName;  // 한글
     private String imageUrl;  // 이미지 URL

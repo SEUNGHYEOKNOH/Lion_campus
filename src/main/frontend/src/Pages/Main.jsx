@@ -1,57 +1,85 @@
-// import { useNavigate } from "react-router-dom";
 import Header from "../components/Layout/Header";
-import DefaultCard from "../components/Common/Card";
-import styled from "styled-components";
-import { ArrowRightCircle } from "lucide-react";
-import tagImg1 from "../assets/tagImg1.png";
 import Footer from "../components/Layout/Footer";
 import FloatedMenu from "../components/Common/FloatedMenu";
-// import axios from "axios";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRightCircle } from "lucide-react";
+import tagImg1 from "../assets/tagImg1.png";
 import { extractAndSaveTokensFromUrl } from "../utils/auth";
+import { fetchUserTags } from "../api/tags";
 import { userAPI } from "../utils/api";
-// import { useRecoilValue } from "recoil";
 
 const Main = () => {
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+  const navigate = useNavigate();
 
-  // OAuth 로그인 후 토큰 처리
+  const [userInfo, setUserInfo] = useState({
+    id: null,
+    name: "",
+    email: "",
+    nickname: "",
+    school: "",
+    major: "",
+    career: "",
+    tags: [],
+  });
+
+  const [userTags, setUserTags] = useState([]);
+
   useEffect(() => {
-    const hasTokens = extractAndSaveTokensFromUrl();
-    if (hasTokens) {
-      console.log("OAuth 로그인이 완료되었습니다.");
-
-      // 로그인 성공 후 사용자 정보 확인
-      const fetchUserInfo = async () => {
+    const initUser = async () => {
+      const savedUser = localStorage.getItem("userInfo");
+      if (savedUser) {
+        const parsed = JSON.parse(savedUser);
+        setUserInfo(parsed);
+  
         try {
-          const userInfo = await userAPI.getCurrentUser();
-          console.log("로그인한 사용자 정보:", userInfo);
-
-          // GUEST 역할인 경우 추가 정보 입력이 필요할 수 있음
-          if (userInfo.role === "GUEST") {
-            console.log("추가 정보 입력이 필요한 사용자입니다.");
+          const tags = await fetchUserTags(parsed.id);
+          if (Array.isArray(tags)) {
+            setUserTags(tags);
+          } else {
+            console.warn("❌ 태그 응답 형식이 잘못됨:", tags);
           }
-        } catch (error) {
-          console.error("사용자 정보 조회 실패:", error);
+        } catch (err) {
+          console.error("❌ 태그 로딩 실패:", err);
         }
-      };
-
-      fetchUserInfo();
-    }
+      } else {
+        // URL에 토큰 있으면 저장
+        const hasTokens = extractAndSaveTokensFromUrl();
+        const accessToken = localStorage.getItem("accessToken");
+  
+        if (hasTokens || accessToken) {
+          try {
+            const user = await userAPI.getCurrentUser();
+            setUserInfo(user);
+            localStorage.setItem("userInfo", JSON.stringify(user));
+  
+            const tags = await fetchUserTags(user.id);
+            if (Array.isArray(tags)) {
+              setUserTags(tags);
+            }
+          } catch (err) {
+            console.error("❌ 사용자 정보 또는 태그 로딩 실패:", err);
+          }
+        }
+      }
+    };
+  
+    initUser();
   }, []);
+  
 
-  // const takeInfo = async () => {
-  //   const res = await axios.get(`${BASE_URL}/api/oauth2/code/google`, {
-  //     withCredentials: true,
-  //   });
-  //   console.log(res.data); // => 사용자 정보 (id, email 등)
-  // };
+  const handleCardClick = (tagEn) => {
+    if (tagEn) {
+      navigate(`/tags/${encodeURIComponent(tagEn)}`);
+    } else {
+      console.warn("⚠️ 영어 태그(tagEn)가 없습니다.");
+    }
+  };
 
   return (
     <div>
-      <Header>상단헤더 자리</Header>
-      {/* <button onClick={takeInfo}>api 테스트 버튼</button> */}
+      <Header />
       <Body>
         <Text1>
           <p className="MainTitle1">
@@ -60,52 +88,33 @@ const Main = () => {
             기록하고 공유해보세요
           </p>
         </Text1>
+
         <RouteCardGrid>
           <Link to="/milestone">
             <FeatureCard style={{ backgroundColor: "#e0edff" }}>
-              <div className="Headline4" style={{ fontWeight: 600 }}>
-                마일스톤
-              </div>
-              <div style={{ fontSize: "12px", color: "#000000" }}>
-                나의 기록을 한번에 볼 수 있어요
-              </div>
-              <ArrowWrapper>
-                보러가기
-                <ArrowRightCircle />
-              </ArrowWrapper>
+              <div className="Headline4" style={{ fontWeight: 600 }}>마일스톤</div>
+              <div style={{ fontSize: "12px", color: "#000000" }}>나의 기록을 한번에 볼 수 있어요</div>
+              <ArrowWrapper>보러가기 <ArrowRightCircle /></ArrowWrapper>
             </FeatureCard>
           </Link>
           <Link to="/write">
             <FeatureCard style={{ backgroundColor: "#aecce9" }}>
-              <div className="Headline4" style={{ fontWeight: 600 }}>
-                글쓰기
-              </div>
-              <div style={{ fontSize: "12px", color: "#000000" }}>
-                게시글을 작성할 수 있어요
-              </div>
-              <ArrowWrapper>
-                포스팅하기
-                <ArrowRightCircle />
-              </ArrowWrapper>
+              <div className="Headline4" style={{ fontWeight: 600 }}>글쓰기</div>
+              <div style={{ fontSize: "12px", color: "#000000" }}>게시글을 작성할 수 있어요</div>
+              <ArrowWrapper>포스팅하기 <ArrowRightCircle /></ArrowWrapper>
             </FeatureCard>
           </Link>
           <Link to="/tags" style={{ textDecoration: "none", color: "inherit" }}>
             <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
-              <div className="Headline4" style={{ fontWeight: 600 }}>
-                해시태그 구독하기
-              </div>
+              <div className="Headline4" style={{ fontWeight: 600 }}>해시태그 구독하기</div>
               <div style={{ fontSize: "12px", color: "#000000" }}>
-                관심 있는 해시태그를 구독하고
-                <br />
-                소식을 받아보세요.
+                관심 있는 해시태그를 구독하고<br />소식을 받아보세요.
               </div>
-              <ArrowWrapper>
-                둘러보기
-                <ArrowRightCircle />
-              </ArrowWrapper>
+              <ArrowWrapper>둘러보기 <ArrowRightCircle /></ArrowWrapper>
             </FeatureCard>
           </Link>
         </RouteCardGrid>
+
         <Text2>
           <p className="MainTitle1">
             인기있는
@@ -113,39 +122,18 @@ const Main = () => {
             해시태그를 모았어요
           </p>
         </Text2>
+
         <TagCardGrid>
-          <TagCard1>
-            <CardHeader>
-              <CategoryBadge>진로</CategoryBadge>
-              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
-            </CardHeader>
-            <HashTag>#경찰</HashTag>
-            <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
-          </TagCard1>
-          <TagCard1>
-            <CardHeader>
-              <CategoryBadge>진로</CategoryBadge>
-              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
-            </CardHeader>
-            <HashTag>#경찰</HashTag>
-            <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
-          </TagCard1>
-          <TagCard1>
-            <CardHeader>
-              <CategoryBadge>진로</CategoryBadge>
-              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
-            </CardHeader>
-            <HashTag>#경찰</HashTag>
-            <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
-          </TagCard1>
-          <TagCard1>
-            <CardHeader>
-              <CategoryBadge>진로</CategoryBadge>
-              <RankChange>▲ TOP 1</RankChange> {/* ↓ 이건 내려감 표시 */}
-            </CardHeader>
-            <HashTag>#경찰</HashTag>
-            <Thumbnail src={tagImg1} alt="해시태그 썸네일" />
-          </TagCard1>
+          {userTags.map((tag, idx) => (
+            <TagCard1 key={idx} onClick={() => handleCardClick(tag.tagName)}>
+              <CardHeader>
+                <CategoryBadge>{tag.koreanName}</CategoryBadge>
+                <RankChange>▲ TOP {idx + 1}</RankChange>
+              </CardHeader>
+              <HashTag>#{tag.tagName}</HashTag>
+              <Thumbnail src={tag.imageUrl || tagImg1} alt={`${tag.tagName} 썸네일`} />
+            </TagCard1>
+          ))}
         </TagCardGrid>
 
         <Text2>
@@ -155,48 +143,31 @@ const Main = () => {
             전해드릴게요
           </p>
         </Text2>
+
         <NewsGrid>
-          <NewsCard
-            style={{ background: "linear-gradient(180deg, #0a1f3d, #274c6e)" }}
-          >
+          <NewsCard style={{ background: "linear-gradient(180deg, #0a1f3d, #274c6e)" }}>
             <div>
               <NewsTitle>새 소식</NewsTitle>
               <NewsDesc>New</NewsDesc>
             </div>
-            <ReadMore>
-              확인하기 <ArrowRightCircle />
-            </ReadMore>
+            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
           </NewsCard>
-
           <NewsCard style={{ background: "#a3d3e6" }}>
             <NewsTitle>2025 대한민국 공익광고제</NewsTitle>
             <NewsDesc>25.07.01 ~ 25.08.18</NewsDesc>
-            <ReadMore>
-              확인하기 <ArrowRightCircle />
-            </ReadMore>
+            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
           </NewsCard>
-
-          <NewsCard
-            style={{ background: "linear-gradient(180deg, #0d2546, #193857)" }}
-          >
+          <NewsCard style={{ background: "linear-gradient(180deg, #0d2546, #193857)" }}>
             <NewsTitle>현직자가 알려주는 직무 경험 쌓는 법</NewsTitle>
-            <ReadMore>
-              확인하기 <ArrowRightCircle />
-            </ReadMore>
+            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
           </NewsCard>
-
-          <NewsCard
-            style={{ background: "linear-gradient(180deg, #253c5b, #5c768e)" }}
-          >
+          <NewsCard style={{ background: "linear-gradient(180deg, #253c5b, #5c768e)" }}>
             <NewsTitle>MAKER 똑똑하게 사용하기</NewsTitle>
             <NewsDesc>#취업 #활용자 #사용설명서</NewsDesc>
-            <ReadMore>
-              확인하기 <ArrowRightCircle />
-            </ReadMore>
+            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
           </NewsCard>
         </NewsGrid>
       </Body>
-
       <Footer />
       <FloatedMenu />
     </div>

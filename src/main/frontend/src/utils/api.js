@@ -103,7 +103,10 @@ export const put = async (url, data) => {
   });
 
   if (!res.ok) throw new Error(`PUT 요청 실패: ${res.status}`);
-  return res.json();
+
+  // 응답 바디가 비어있을 수 있으므로 안전하게 처리
+  const text = await res.text();
+  return text ? JSON.parse(text) : {}; // 응답이 없으면 빈 객체 반환
 };
 
 /**

@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom';
 const TagCard = ({ tag, tagEn, rank, rating, imageUrl, onSubscribe }) => {
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
+  const handleCardClick = (tagEn) => {
     if (tagEn) {
       navigate(`/tags/${tagEn}`);
     } else {
       console.warn("⚠️ 영어 태그(tagEn)가 없습니다.");
     }
   };
+
+
 
   const handleSubscribeClick = (e) => {
     e.stopPropagation(); // 부모 div의 onClick 전파 방지
