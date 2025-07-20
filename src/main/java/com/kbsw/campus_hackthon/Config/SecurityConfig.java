@@ -64,7 +64,8 @@ public class SecurityConfig {
                                 "/api/images/upload",
                                 "/api/posts/**",
                                 "/api/images/download/**",
-                                "/api/images/download"
+                                "/api/images/download",
+                                "/api/auth/refresh"
                         ).permitAll()
                         .requestMatchers("/api/user/me/**").authenticated()
                         .anyRequest().authenticated()
