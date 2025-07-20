@@ -216,7 +216,6 @@ const MyPage = () => {
                 </FormRow>
               )}
             </FormGroup>
-
             <ButtonGroup>
               <SubmitButton onClick={handleSubmit} disabled={saving}>
                 {saving ? "저장 중..." : "수정"}

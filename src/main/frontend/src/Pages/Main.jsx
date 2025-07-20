@@ -9,7 +9,7 @@ import FloatedMenu from "../components/Common/FloatedMenu";
 // import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { extractAndSaveTokensFromUrl, isLoggedIn } from "../utils/auth";
+import { extractAndSaveTokensFromUrl } from "../utils/auth";
 import { userAPI } from "../utils/api";
 // import { useRecoilValue } from "recoil";
 
@@ -88,8 +88,8 @@ const Main = () => {
                 <ArrowRightCircle />
               </ArrowWrapper>
             </FeatureCard>
-          </Link >
-          <Link to="/tags" style={{ textDecoration: 'none', color: 'inherit' }}>
+          </Link>
+          <Link to="/tags" style={{ textDecoration: "none", color: "inherit" }}>
             <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
               <div className="Headline4" style={{ fontWeight: 600 }}>
                 해시태그 구독하기
@@ -256,7 +256,6 @@ const ArrowWrapper = styled.div`
 
 const Text1 = styled.div`
   font-weight: 500;
-  margin-top: 4rem;
   margin-left: 10%;
   margin-bottom: 2rem;
 `;
