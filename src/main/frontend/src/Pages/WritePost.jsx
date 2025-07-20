@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Layout/Header";
-import { FaImage, FaBold, FaItalic, FaUnderline, FaStrikethrough } from "react-icons/fa";
+import logo from "../assets/logo.png";
+import {
+  FaImage,
+  FaBold,
+  FaItalic,
+  FaUnderline,
+  FaStrikethrough,
+} from "react-icons/fa";
 import { userAPI } from "../utils/api";
 
 const WritePostPage = () => {
@@ -18,13 +25,13 @@ const WritePostPage = () => {
   });
 
   const [userInfo, setUserInfo] = useState({
-    id: '',
-    name: '',
-    email: '',
-    nickname: '',
-    school: '',
-    major: '',
-    career: '',
+    id: "",
+    name: "",
+    email: "",
+    nickname: "",
+    school: "",
+    major: "",
+    career: "",
     tags: [],
   });
 
@@ -39,19 +46,19 @@ const WritePostPage = () => {
       setLoading(true);
       const userData = await userAPI.getCurrentUser();
       setUserInfo({
-        id: userData.id || '',
-        name: userData.name || '',
-        email: userData.email || '',
-        nickname: userData.nickname || '',
-        school: userData.school || '',
-        major: userData.major || '',
-        career: userData.career || '',
-        tags: userData.tags || []
+        id: userData.id || "",
+        name: userData.name || "",
+        email: userData.email || "",
+        nickname: userData.nickname || "",
+        school: userData.school || "",
+        major: userData.major || "",
+        career: userData.career || "",
+        tags: userData.tags || [],
       });
     } catch (error) {
-      console.error('사용자 정보 조회 실패:', error);
-      if (error.message.includes('인증')) {
-        navigate('/login');
+      console.error("사용자 정보 조회 실패:", error);
+      if (error.message.includes("인증")) {
+        navigate("/login");
       }
     } finally {
       setLoading(false);
@@ -77,10 +84,13 @@ const WritePostPage = () => {
   };
 
   const handleTagClick = (tag) => {
-    const currentTags = form.tags.split(',').map(t => t.trim()).filter(Boolean);
+    const currentTags = form.tags
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
     if (!currentTags.includes(tag)) {
       const newTags = [...currentTags, tag];
-      setForm(prev => ({ ...prev, tags: newTags.join(', ') }));
+      setForm((prev) => ({ ...prev, tags: newTags.join(", ") }));
     }
   };
 
@@ -135,38 +145,116 @@ const WritePostPage = () => {
 
   return (
     <ContentWrapper>
-      <Header />
       <Container>
         <TopBar>
-          <LogoSection />
+          <Logo
+            src={logo}
+            alt="로고"
+            onClick={() => {
+              navigate("/");
+            }}
+          ></Logo>
           <ButtonGroup>
-            <Button>저장</Button>
-            <SubmitButton onClick={handleSubmit}>완료</SubmitButton>
+            <OutlineButton>저장</OutlineButton>
+            <FilledButton onClick={handleSubmit}>완료</FilledButton>
           </ButtonGroup>
         </TopBar>
 
         <FormSection>
           <InputRow>
-            <Label>참여 행사</Label>
+            <Label>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "5px",
+                  height: "13px",
+                  backgroundColor: "#102e4a",
+                  borderRadius: "4px",
+                  marginRight: "8px",
+                }}
+              />
+              참여 행사
+            </Label>
             <Input name="event" value={form.event} onChange={handleChange} />
           </InputRow>
           <InputRow>
-            <Label>행사 기간</Label>
-            <Input name="period" value={form.period} onChange={handleChange} placeholder="예: 2025-07-01 ~ 2025-07-03" />
+            <Label>
+              {" "}
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "5px",
+                  height: "13px",
+                  backgroundColor: "#102e4a",
+                  borderRadius: "4px",
+                  marginRight: "8px",
+                }}
+              />
+              행사 기간
+            </Label>
+
+            <Input
+              name="period"
+              value={form.period}
+              onChange={handleChange}
+              placeholder="예: 2025-07-01 ~ 2025-07-03"
+            />
           </InputRow>
           <InputRow>
-            <Label>평점</Label>
+            <Label>
+              {" "}
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "5px",
+                  height: "13px",
+                  backgroundColor: "#102e4a",
+                  borderRadius: "4px",
+                  marginRight: "8px",
+                }}
+              />
+              평점
+            </Label>
             <RatingInputWrapper>
-              <Input name="rating" value={form.rating} onChange={handleChange} />
+              <Input
+                name="rating"
+                value={form.rating}
+                style={{ marginLeft: "62px" }}
+                onChange={handleChange}
+              />
               <span>/ 5.0</span>
             </RatingInputWrapper>
           </InputRow>
           <InputRow>
-            <Label>해시태그</Label>
+            <Label>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "5px",
+                  height: "13px",
+                  backgroundColor: "#102e4a",
+                  borderRadius: "4px",
+                  marginRight: "8px",
+                }}
+              />
+              해시태그
+            </Label>
             <Input name="tags" value={form.tags} onChange={handleChange} />
           </InputRow>
-          <FormRow>
-            <Label>관심태그</Label>
+          <FormRow style={{ marginLeft: "2rem" }}>
+            <Label>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "5px",
+                  height: "13px",
+                  backgroundColor: "#102e4a",
+                  borderRadius: "4px",
+                  marginRight: "8px",
+                }}
+              />
+              관심태그
+            </Label>
             <TagContainer>
               {userInfo.tags.map((tag, index) => (
                 <TagItem key={index} onClick={() => handleTagClick(tag)}>
@@ -177,14 +265,15 @@ const WritePostPage = () => {
           </FormRow>
 
           <RadioGroup>
-            <label>
+            <label style={{ marginLeft: "2rem" }}>
               <input
                 type="radio"
                 name="visibility"
                 value="public"
                 checked={form.visibility === "public"}
                 onChange={handleChange}
-              /> 전체공개
+              />{" "}
+              전체공개
             </label>
             <label>
               <input
@@ -193,12 +282,27 @@ const WritePostPage = () => {
                 value="private"
                 checked={form.visibility === "private"}
                 onChange={handleChange}
-              /> 비공개
+              />{" "}
+              비공개
             </label>
           </RadioGroup>
 
           <EditorToolbar>
-            <FaImage /> | <FaBold /> <FaItalic /> <FaUnderline /> <FaStrikethrough />
+            <FaImage />
+            <span
+              style={{
+                display: "inline-block",
+                width: "1px",
+                height: "1.3rem",
+                backgroundColor: "#102e4a",
+                borderRadius: "4px",
+                marginRight: "8px",
+              }}
+            />
+            <FaBold />
+            <FaItalic />
+            <FaUnderline />
+            <FaStrikethrough />
           </EditorToolbar>
 
           <TitleInput
@@ -222,40 +326,77 @@ const WritePostPage = () => {
 export default WritePostPage;
 
 // 스타일 정의
-const ContentWrapper = styled.div``;
+const ContentWrapper = styled.div`
+  background-color: #f5f7f9;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+`;
 
 const Container = styled.div`
-  max-width: 800px;
+  max-width: 95vw;
   margin: 0 auto;
   padding: 20px;
+  width: 100%;
 `;
 
 const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  height: 5vh;
 `;
 
-const LogoSection = styled.div`
-  display: flex;
-  flex-direction: column;
+const Logo = styled.img`
+  height: 5vh;
+  width: 14vh;
+  position: absolute; // 로고 위치 고정(위치지정)
+  left: 50%;
+  transform: translateX(
+    -50%
+  ); //로고를 중앙정렬 시키기위해 로고 중앙을 가로중앙에 고정
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
+  position: absolute;
+  right: 0;
 `;
 
-const Button = styled.button`
-  padding: 8px 16px;
-  border: 1px solid #999;
-  background: white;
+const OutlineButton = styled.button`
+  padding: 6px 16px;
+  border: 1px solid #102e4a;
+  background-color: #ffffff;
+  color: #102e4a;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 5rem;
+
+  &:hover {
+    background-color: #102e4a;
+    color: #ffffff;
+  }
 `;
 
-const SubmitButton = styled(Button)`
-  background: #4e72f2;
-  color: white;
-  border: none;
+const FilledButton = styled.button`
+  padding: 6px 16px;
+  background-color: #102e4a;
+  color: #ffffff;
+  border: 1px solid #102e4a;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 5rem;
+
+  &:hover {
+    background-color: #ffffff;
+    color: #102e4a;
+  }
 `;
 
 const FormSection = styled.div`
@@ -271,7 +412,7 @@ const FormSection = styled.div`
 
 const InputRow = styled.div`
   display: flex;
-  flex-direction: column;
+  padding: 4px 4px 4px 2rem;
 `;
 
 const Label = styled.label`
@@ -281,8 +422,12 @@ const Label = styled.label`
 
 const Input = styled.input`
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: 1rem;
   border: 1px solid #ccc;
+  height: 2rem;
+  flex: 1;
+  margin-left: 2rem;
+  font-size: 14px;
 `;
 
 const RatingInputWrapper = styled.div`
@@ -322,6 +467,10 @@ const TagItem = styled.span`
 const RadioGroup = styled.div`
   display: flex;
   gap: 16px;
+  justify-content: flex-end; // ← 오른쪽 정렬
+  padding-right: 2rem; // ← 오른쪽에서 2rem 떨어지도록
+  padding-bottom: 1rem; // 아래쪽 여백 추가
+  border-bottom: 1px solid #ddd;
 `;
 
 const EditorToolbar = styled.div`
@@ -330,18 +479,20 @@ const EditorToolbar = styled.div`
   padding: 10px 0;
   font-size: 18px;
   color: #333;
+  padding: 0 0;
+  margin-left: 0.5rem;
 `;
 
 const TitleInput = styled.input`
   font-size: 20px;
   font-weight: bold;
   padding: 10px;
-  border: none;
   border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 `;
 
 const ContentArea = styled.textarea`
-  min-height: 300px;
+  height: 55vh;
   padding: 12px;
   font-size: 16px;
   border: none;
