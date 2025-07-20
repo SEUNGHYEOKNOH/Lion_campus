@@ -41,3 +41,5 @@ src/main/resources/firebase-service-account.json
 src/main/resources/security
 src/main/resources/application.properties.backup
 src/.DS_Store
+.DS_Store
+

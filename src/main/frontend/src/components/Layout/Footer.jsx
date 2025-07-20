@@ -16,14 +16,15 @@ const Footer = () => {
 export default Footer;
 
 const Foot = styled.footer`
-  width: 100%;
+  width: 100vw;
   border-top: 1px solid #ddd;
-  padding: 16px 0;
+  padding: 1rem 1rem;
   background-color: #fff;
   display: flex;
   justify-content: flex-start; /* ← 왼쪽 정렬 */
   align-items: center;
   margin-top: 5rem;
+  height: 16vh;
 `;
 
 const FooterMenu = styled.ul`

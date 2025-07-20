@@ -10,7 +10,7 @@
 }
 
 .thumbnail img {
-  width: 100%;
+  width: 180px;
   height: 160px;
   object-fit: cover;
 }
@@ -49,10 +49,20 @@
   color: #666;
   margin-top: 10px;
 }
-.day{
+.day {
   background-color: #081a68;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.75rem;
   color: #fefdfd;
+}
+
+.date {
+  font-size: 11px;
+  padding-top: 5px;
+  border-radius: 8px;
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
 }

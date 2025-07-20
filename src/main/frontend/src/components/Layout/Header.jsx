@@ -2,7 +2,7 @@
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { LogIn, LogOut, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { isLoggedIn, clearTokens } from "../../utils/auth";
 
@@ -21,8 +21,8 @@ const Header = () => {
   const handleLogout = () => {
     clearTokens();
     setLoggedIn(false);
-    navigate('/');
-    alert('로그아웃되었습니다.');
+    navigate("/");
+    alert("로그아웃되었습니다.");
   };
 
   return (
@@ -45,7 +45,7 @@ const Header = () => {
           <Link to="/mypage">
             <div>마이페이지</div>
           </Link>
-          <div onClick={handleLogout} style={{ cursor: 'pointer' }}>
+          <div onClick={handleLogout} style={{ cursor: "pointer" }}>
             <div>로그아웃</div>
           </div>
         </Btns>
@@ -70,9 +70,10 @@ const Head = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
-  max-width: 1024px;
+  // padding: 12px 24px;
+  max-width: 80vw;
   margin: 0 auto;
+  height: 10vh;
 `;
 
 const LogoWrapper = styled.div`
@@ -80,13 +81,13 @@ const LogoWrapper = styled.div`
   img {
     height: 4rem;
   }
-  margin-left: 12px;
+  margin-left: 2vw;
 `;
 
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 20rem;
+  width: 30vw;
   height: 2rem;
   border: 1px solid #ccc;
   border-radius: 20px;

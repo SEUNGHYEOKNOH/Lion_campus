@@ -15,17 +15,17 @@ const Milestone = () => {
   const [date, setDate] = useState(new Date());
   const [selected, setSelected] = useState("milestone");
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    school: '',
-    major: '',
-    career: ''
+    name: "",
+    school: "",
+    major: "",
+    career: "",
   });
   const [loading, setLoading] = useState(true);
 
   // 로그인 확인 및 사용자 정보 조회
   useEffect(() => {
     if (!isLoggedIn()) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
@@ -38,15 +38,15 @@ const Milestone = () => {
       setLoading(true);
       const userData = await userAPI.getCurrentUser();
       setUserInfo({
-        name: userData.name || '',
-        school: userData.school || '',
-        major: userData.major || '',
-        career: userData.career || ''
+        name: userData.name || "",
+        school: userData.school || "",
+        major: userData.major || "",
+        career: userData.career || "",
       });
     } catch (error) {
-      console.error('사용자 정보 조회 실패:', error);
-      if (error.message.includes('인증')) {
-        navigate('/login');
+      console.error("사용자 정보 조회 실패:", error);
+      if (error.message.includes("인증")) {
+        navigate("/login");
       }
     } finally {
       setLoading(false);
@@ -104,16 +104,26 @@ const Milestone = () => {
         <ContentWrapper>
           <TopSection>
             <GoalCard>
-              <h3>{userInfo.name ? `${userInfo.name}님의 목표` : '사용자님의 목표'} 🔥</h3>
+              <h3>
+                {userInfo.name
+                  ? `${userInfo.name}님의 목표`
+                  : "사용자님의 목표"}{" "}
+                🔥
+              </h3>
               <ul>
-                <li>🎓 학력: {userInfo.school ? `${userInfo.school} 재학 중` : '학교 정보를 입력해주세요'}</li>
-                <li>📘 전공: {userInfo.major || '전공 정보를 입력해주세요'}</li>
-                <li>💼 진로: {userInfo.career || '희망진로를 입력해주세요'}</li>
+                <li>
+                  🎓 학력:{" "}
+                  {userInfo.school
+                    ? `${userInfo.school} 재학 중`
+                    : "학교 정보를 입력해주세요"}
+                </li>
+                <li>📘 전공: {userInfo.major || "전공 정보를 입력해주세요"}</li>
+                <li>💼 진로: {userInfo.career || "희망진로를 입력해주세요"}</li>
               </ul>
               {(!userInfo.school || !userInfo.major || !userInfo.career) && (
                 <ProfileCompleteNotice>
-                  📝 프로필을 완성하여 더 나은 서비스를 받아보세요!{' '}
-                  <ProfileLink onClick={() => navigate('/mypage')}>
+                  📝 프로필을 완성하여 더 나은 서비스를 받아보세요!{" "}
+                  <ProfileLink onClick={() => navigate("/mypage")}>
                     마이페이지에서 설정하기
                   </ProfileLink>
                 </ProfileCompleteNotice>
@@ -212,10 +222,11 @@ const ContentWrapper = styled.div`
 
 const TopSection = styled.div`
   display: flex;
-  width: 95%;
+  width: 70vw;
   justify-content: space-between;
   gap: 24px;
   margin-bottom: 32px;
+  padding-top: 5vh;
 `;
 
 const GoalCard = styled.div`
@@ -254,10 +265,8 @@ const ProfileLink = styled.span`
 `;
 
 const CalendarWrapper = styled.div`
-  flex-shrink: 0;
-  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  flex: 1;
 `;
 
 const SectionHeader = styled.div`
@@ -339,7 +348,9 @@ const DeleteButton = styled.button`
 `;
 
 const TimelineSection = styled.div`
-  margin-top: 40px;
+  margin-top: 10vh;
+  flex: 1;
+  width: 60vw;
 
   h3 {
     margin-bottom: 16px;

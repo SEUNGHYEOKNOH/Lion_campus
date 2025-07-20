@@ -5,20 +5,19 @@ import cryA from "../assets/A_cry.png";
 import { userAPI } from "../utils/api";
 import { isLoggedIn, clearTokens } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
-import { put } from '../utils/api'; // 또는 상대 경로에 따라 조정
-
+import { put } from "../utils/api"; // 또는 상대 경로에 따라 조정
 
 const MyPage = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState("edit");
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    email: '',
-    nickname: '',
-    school: '',
-    major: '',
-    career: '',
-    tags: []
+    name: "",
+    email: "",
+    nickname: "",
+    school: "",
+    major: "",
+    career: "",
+    tags: [],
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -26,7 +25,7 @@ const MyPage = () => {
   // 로그인 확인 및 사용자 정보 조회
   useEffect(() => {
     if (!isLoggedIn()) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
@@ -39,19 +38,19 @@ const MyPage = () => {
       setLoading(true);
       const userData = await userAPI.getCurrentUser();
       setUserInfo({
-        id: userData.id || '',
-        name: userData.name || '',
-        email: userData.email || '',
-        nickname: userData.nickname || '',
-        school: userData.school || '',
-        major: userData.major || '',
-        career: userData.career || '',
-        tags: userData.tags || []
+        id: userData.id || "",
+        name: userData.name || "",
+        email: userData.email || "",
+        nickname: userData.nickname || "",
+        school: userData.school || "",
+        major: userData.major || "",
+        career: userData.career || "",
+        tags: userData.tags || [],
       });
     } catch (error) {
-      console.error('사용자 정보 조회 실패:', error);
-      if (error.message.includes('인증')) {
-        navigate('/login');
+      console.error("사용자 정보 조회 실패:", error);
+      if (error.message.includes("인증")) {
+        navigate("/login");
       }
     } finally {
       setLoading(false);
@@ -60,9 +59,9 @@ const MyPage = () => {
 
   // 입력값 변경 처리
   const handleInputChange = (field, value) => {
-    setUserInfo(prev => ({
+    setUserInfo((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -76,18 +75,18 @@ const MyPage = () => {
         school: userInfo.school,
         major: userInfo.major,
         career: userInfo.career,
-        tags: userInfo.tags
+        tags: userInfo.tags,
       });
-      
+
       setUserInfo({
         ...userInfo,
-        ...updatedUser
+        ...updatedUser,
       });
-      
-      alert('정보가 성공적으로 수정되었습니다.');
+
+      alert("정보가 성공적으로 수정되었습니다.");
     } catch (error) {
-      console.error('사용자 정보 수정 실패:', error);
-      alert('정보 수정에 실패했습니다. 다시 시도해주세요.');
+      console.error("사용자 정보 수정 실패:", error);
+      alert("정보 수정에 실패했습니다. 다시 시도해주세요.");
     } finally {
       setSaving(false);
     }
@@ -95,43 +94,41 @@ const MyPage = () => {
 
   // 회원 탈퇴
   const handleDeleteAccount = async () => {
-    if (!window.confirm('정말로 탈퇴하시겠습니까? 모든 데이터가 삭제됩니다.')) {
+    if (!window.confirm("정말로 탈퇴하시겠습니까? 모든 데이터가 삭제됩니다.")) {
       return;
     }
 
     try {
       await userAPI.deleteUser();
       clearTokens();
-      alert('회원 탈퇴가 완료되었습니다.');
-      navigate('/');
+      alert("회원 탈퇴가 완료되었습니다.");
+      navigate("/");
     } catch (error) {
-      console.error('회원 탈퇴 실패:', error);
-      alert('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
+      console.error("회원 탈퇴 실패:", error);
+      alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
+  const handleGenerateTagsFromCareer = async () => {
+    const career = userInfo.career?.trim();
+    if (!career) {
+      alert("희망진로를 입력해주세요.");
+      return;
+    }
 
-const handleGenerateTagsFromCareer = async () => {
-  const career = userInfo.career?.trim();
-  if (!career) {
-    alert("희망진로를 입력해주세요.");
-    return;
-  }
+    try {
+      // 이미 만들어진 put() 함수 사용
+      await put(`/api/recommend/user/${userInfo.id}`, [career]);
 
-  try {
-    // 이미 만들어진 put() 함수 사용
-    await put(`/api/recommend/user/${userInfo.id}`, [career]);
+      alert("태그가 성공적으로 생성되었습니다. 새로고침 후 확인하세요.");
 
-    alert("태그가 성공적으로 생성되었습니다. 새로고침 후 확인하세요.");
-
-    // 또는 생성 후 새로 유저 정보 불러오기:
-     await fetchUserInfo();
-  } catch (err) {
-    console.error("태그 생성 오류:", err);
-    alert("태그 생성에 실패했습니다.");
-  }
-};
-  
+      // 또는 생성 후 새로 유저 정보 불러오기:
+      await fetchUserInfo();
+    } catch (err) {
+      console.error("태그 생성 오류:", err);
+      alert("태그 생성에 실패했습니다.");
+    }
+  };
 
   if (loading) {
     return (
@@ -152,25 +149,27 @@ const handleGenerateTagsFromCareer = async () => {
             <FormGroup>
               <FormRow>
                 <Label>이름</Label>
-                <Input 
-                  value={userInfo.name || ''}
+                <Input
+                  value={userInfo.name || ""}
                   readOnly
                   placeholder="소셜 로그인으로 설정된 이름"
                 />
               </FormRow>
               <FormRow>
                 <Label>계정</Label>
-                <Input 
-                  value={userInfo.email || ''} 
-                  readOnly 
+                <Input
+                  value={userInfo.email || ""}
+                  readOnly
                   placeholder="소셜 로그인 계정"
                 />
               </FormRow>
               <FormRow>
                 <Label>닉네임</Label>
-                <Input 
-                  value={userInfo.nickname || ''}
-                  onChange={(e) => handleInputChange('nickname', e.target.value)}
+                <Input
+                  value={userInfo.nickname || ""}
+                  onChange={(e) =>
+                    handleInputChange("nickname", e.target.value)
+                  }
                   placeholder="닉네임을 입력하세요"
                 />
               </FormRow>
@@ -181,28 +180,30 @@ const handleGenerateTagsFromCareer = async () => {
             <FormGroup>
               <FormRow>
                 <Label>대학교</Label>
-                <Input 
-                  value={userInfo.school || ''}
-                  onChange={(e) => handleInputChange('school', e.target.value)}
+                <Input
+                  value={userInfo.school || ""}
+                  onChange={(e) => handleInputChange("school", e.target.value)}
                   placeholder="대학교를 입력하세요"
                 />
               </FormRow>
               <FormRow>
                 <Label>학과</Label>
-                <Input 
-                  value={userInfo.major || ''}
-                  onChange={(e) => handleInputChange('major', e.target.value)}
+                <Input
+                  value={userInfo.major || ""}
+                  onChange={(e) => handleInputChange("major", e.target.value)}
                   placeholder="학과를 입력하세요"
                 />
               </FormRow>
               <FormRow>
                 <Label>희망진로</Label>
-                <Input 
-                  value={userInfo.career || ''}
-                  onChange={(e) => handleInputChange('career', e.target.value)}
+                <Input
+                  value={userInfo.career || ""}
+                  onChange={(e) => handleInputChange("career", e.target.value)}
                   placeholder="희망진로를 입력하세요"
                 />
-                <TagButton onClick={handleGenerateTagsFromCareer}>태그 생성</TagButton>
+                <TagButton onClick={handleGenerateTagsFromCareer}>
+                  태그 생성
+                </TagButton>
               </FormRow>
               {userInfo.tags && userInfo.tags.length > 0 && (
                 <FormRow>
@@ -215,17 +216,16 @@ const handleGenerateTagsFromCareer = async () => {
                 </FormRow>
               )}
             </FormGroup>
-
             <ButtonGroup>
               <SubmitButton onClick={handleSubmit} disabled={saving}>
-                {saving ? '저장 중...' : '수정'}
+                {saving ? "저장 중..." : "수정"}
               </SubmitButton>
               <CancelButton onClick={() => navigate(-1)}>뒤로</CancelButton>
             </ButtonGroup>
           </Section>
         </MainContent>
       ) : (
-        <Content>
+        <MainContent>
           <Title>회원탈퇴</Title>
           <Box>
             <Question>MAKER를 정말 탈퇴하시겠습니까?</Question>
@@ -233,14 +233,14 @@ const handleGenerateTagsFromCareer = async () => {
             <Image src={cryA} alt="경고 아이콘" />
             <Buttons>
               <ConfirmBtn onClick={handleDeleteAccount}>
-                예요, 확인 후 탈퇴하겠습니다.
+                예, 확인 후 탈퇴하겠습니다.
               </ConfirmBtn>
-              <CancelBtn onClick={() => setSelected('edit')}>
+              <CancelBtn onClick={() => setSelected("edit")}>
                 아니요, 탈퇴하지 않겠습니다.
               </CancelBtn>
             </Buttons>
           </Box>
-        </Content>
+        </MainContent>
       )}
     </PageWrapper>
   );
@@ -257,12 +257,11 @@ const MainContent = styled.div`
   flex: 1;
   padding: 40px 60px;
   background-color: white;
-`;
-
-const Section = styled.div`
   max-width: 700px;
   margin: 0 auto;
 `;
+
+const Section = styled.div``;
 
 const SectionTitle = styled.h2`
   font-size: 20px;
@@ -340,15 +339,6 @@ const CancelButton = styled.button`
   cursor: pointer;
 `;
 
-const Container = styled.div`
-  display: flex;
-`;
-
-const Content = styled.div`
-  flex: 1;
-  padding: 40px;
-`;
-
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
@@ -372,9 +362,11 @@ const Box = styled.div`
 const Question = styled.h2`
   font-size: 20px;
   margin-bottom: 12px;
+  min-width: 18rem;
 `;
 
 const Description = styled.p`
+  min-width: 17rem;
   color: #666;
   margin-bottom: 24px;
 `;
@@ -449,4 +441,5 @@ const TagButton = styled.button`
   background-color: #ffffff;
   border: 1px solid #888;
   cursor: pointer;
+  min-width: 80px;
 `;
