@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./Pages/Main";
 import routes from "./router/router";
 import "./styles/Global.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 const { publicRoutes, AuthenticateRoutes } = routes;
