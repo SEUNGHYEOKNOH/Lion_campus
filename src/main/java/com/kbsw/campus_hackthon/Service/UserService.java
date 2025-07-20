@@ -27,7 +27,7 @@ public class UserService {
     public List<TagDto> getUserTags(Long userId) {
         return userProfileRepository.findById(userId)
                 .map(user -> user.getTags().stream()
-                        .map(tag -> new TagDto(tag.getTagName(), tag.getKoreanName()))
+                        .map(tag -> new TagDto(tag.getTagName(), tag.getKoreanName(), tag.getImageUrl()))
                         .toList())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
     }
