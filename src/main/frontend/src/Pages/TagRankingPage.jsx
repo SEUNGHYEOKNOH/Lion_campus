@@ -18,7 +18,7 @@ export default function TagRankingPage() {
       tagEn: tag.tagName || tag,
       rank: index + 1,
       rating: Math.random() * 2 + 3,
-      imageUrl: '/images/default.jpg',
+      imageUrl: tag.imageUrl,
     }));
     setTags(enriched);
   };
@@ -37,7 +37,7 @@ export default function TagRankingPage() {
       tagEn: tag.tagName,           // API 전송/라우팅용
       rank: index + 1,
       rating: Math.random() * 2 + 3,
-      imageUrl: '/images/default.jpg',
+      imageUrl: tag.imageUrl // 이미지 URL
     }));
     setTags(enriched);
     setIsCustom(true);

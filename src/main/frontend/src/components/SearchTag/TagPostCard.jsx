@@ -13,7 +13,7 @@ const TagPostCard = ({ id, userName, title, description, startDate, endDate, ima
   return (
     <div className={styles.card} onClick={handleCardClick}>
       <div className={styles.thumbnail}>
-        <img src={imageUrl || '/images/default.jpg'} alt={`${title} 썸네일`} />
+        <img src={imageUrl} alt={`${title} 썸네일`} />
       </div>
 
       <div className={styles.content}>
