@@ -24,7 +24,7 @@ public class UserService {
 
     // 사용자의 한글 태그를 가져오는 메소드
     @Transactional
-    public List<TagDto> getUserTags(@RequestParams("userId") Long userId) {
+    public List<TagDto> getUserTags(Long userId) {
         return userProfileRepository.findById(userId)
                 .map(user -> user.getTags().stream()
                         .map(tag -> new TagDto(tag.getId(),tag.getTagName(), tag.getKoreanName(), tag.getImageUrl()))
