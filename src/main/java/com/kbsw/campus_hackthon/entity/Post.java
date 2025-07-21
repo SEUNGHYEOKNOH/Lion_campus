@@ -27,7 +27,7 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "image_url", length = 500)
+    @Column(name = "image_url", length = 1000)
     private String imageUrl;
 
     @CreationTimestamp

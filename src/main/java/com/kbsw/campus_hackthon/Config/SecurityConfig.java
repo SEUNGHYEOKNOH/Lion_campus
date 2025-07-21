@@ -63,6 +63,7 @@ public class SecurityConfig {
                                 "/api/v1/oauth2/google/**",
                                 "/api/images/upload",
                                 "/api/posts/**",
+                                "/api/search/**",
                                 "/api/images/download/**",
                                 "/api/images/download",
                                 "/api/auth/refresh"
