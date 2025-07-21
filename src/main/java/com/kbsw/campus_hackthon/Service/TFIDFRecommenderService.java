@@ -84,8 +84,8 @@ public class TFIDFRecommenderService {
 
         String prompt = "진로: " + koreanText +
                 "\n아래 리스트에 있는 태그들 중에서 해당 진로와 관련 있는 키워드 5개를 코드블럭 없이 순수한 json으로 영어-한글 쌍으로 추출해줘. " +
-                "예시는 반드시 아래 형식처럼 출력해줘. 다른 설명은 하지 마. " +
-        "예시 형식: {\"spring\": \"스프링\", \"java\": \"자바\"}"
+                " 반드시 아래 예시 형식처럼 출력해주고 예시를 포함은 하지마. 다른 설명은 하지 마. " +
+        "예시 형식: {\"React\": \"리엑트\", \"phone\": \"폰\"}"
                 + "\n 'backend', 'java', 'spring', 'sql', 'rest api', 'docker', 'aws', 'linux', 'mysql', 'devops',\n" +
                 "  'research', 'lab', 'data science', 'statistics', 'python', 'pandas', 'tensorflow', 'pytorch',\n" +
                 "  'law', 'government', 'public service', 'tax', 'policy', 'teacher', 'judge',\n" +

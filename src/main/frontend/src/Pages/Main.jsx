@@ -204,7 +204,7 @@ const Main = () => {
         </Text2>
 
         <TagCardGrid>
-          {userTags.slice(0, 5).map((tag, idx) => (
+          {userTags.slice(0, 4).map((tag, idx) => (
             <TagCard1 key={idx} onClick={() => handleCardClick(tag.tagName)}>
               <CardHeader>
                 <CategoryBadge>{tag.koreanName}</CategoryBadge>
@@ -358,12 +358,12 @@ const Text2 = styled.div`
 const TagCardGrid = styled.div`
   display: flex;
   align-items: center;
-  gap: 3%;
+  gap: 1%;
   margin: auto;
 `;
 
 const TagCard1 = styled.div`
-  width: 19.5vw;
+  width: 23vw;
   min-width: 7rem;
   height: 200px;
   border-radius: 12px;
