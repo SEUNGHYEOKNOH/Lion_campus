@@ -41,10 +41,13 @@ public class UserProfile {
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tags> tags = new ArrayList<>();
 
+
     public void addTag(Tags tags) {
         this.tags.add(tags);
         tags.setUserProfile(this);
     }
+
+
 
     /**
      * Refresh Token 업데이트
