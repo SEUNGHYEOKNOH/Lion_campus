@@ -23,6 +23,8 @@ export default function TagRankingPage() {
     setTags(enriched);
   };
 
+   // 🔧 Firebase 이미지 URL 생성 함수
+
   const handleCustomClick = async () => {
     const tagData = await fetchUserTags(1);
     console.log("✅ 사용자 태그 응답:", tagData);
@@ -37,7 +39,6 @@ export default function TagRankingPage() {
       tagEn: tag.tagName,           // API 전송/라우팅용
       rank: index + 1,
       rating: Math.random() * 2 + 3,
-      imageUrl: tag.imageUrl // 이미지 URL
     }));
     setTags(enriched);
     setIsCustom(true);

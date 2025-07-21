@@ -6,6 +6,12 @@ import { useNavigate } from 'react-router-dom';
 const TagGrid = ({ tags }) => {
   const navigate = useNavigate();
 
+  const getFirebaseImageUrl = (tagName) => {
+    const encoded = encodeURIComponent(`${tagName}.png`);
+    return `https://firebasestorage.googleapis.com/v0/b/web-kit-69b0d/o/${encoded}?alt=media`;
+  };
+  
+
   return (
     <div className={styles.grid}>
       {tags.map((tagItem, index) => (
@@ -15,9 +21,9 @@ const TagGrid = ({ tags }) => {
           tagEn={tagItem.tagName || tagItem.tagEn}
           rank={tagItem.rank}
           rating={tagItem.rating}
-          imageUrl={tagItem.imageUrl}
-          onSubscribe={() => console.log(`${tagItem.koreanName || tagItem.tag} 구독 클릭됨`)}
-          onClick={() => navigate(`/tags/${tagItem.tagName || tagItem.tagEn}`)} // ✅ 이거 추가
+          imageUrl={tagItem.imageUrl || getFirebaseImageUrl(tagItem.tagName ||tagItem.tagEn)}
+          onSubscribe={() => console.log(`${tagItem.tagEn || tagItem.tag} 구독 클릭됨`)}
+          onClick={() => navigate(`/tags/${tagItem.tagEn}`)} // ✅ 이거 추가
         />
       ))}
     </div>
