@@ -74,7 +74,8 @@ const Head = styled.header`
   // padding: 12px 24px;
   max-width: 80vw;
   margin: 0 auto;
-  height: 10vh;
+  height: 15vh;
+  padding-top: 1rem;
 `;
 
 const LogoWrapper = styled.div`

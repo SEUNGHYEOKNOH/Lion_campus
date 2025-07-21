@@ -22,7 +22,7 @@ const LoginPage = () => {
         <Input type="text" placeholder="아이디" />
         <Input type="password" placeholder="비밀번호" />
         <LoginButton>로그인</LoginButton>
-        <SocialLogin>
+        <SocialLogin style={{ gap: "30px" }}>
           <Icon
             src={google}
             alt="Google"

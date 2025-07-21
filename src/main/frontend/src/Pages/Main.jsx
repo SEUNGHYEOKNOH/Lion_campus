@@ -5,13 +5,19 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRightCircle } from "lucide-react";
-import tagImg1 from "../assets/tagImg1.png";
 import { extractAndSaveTokensFromUrl } from "../utils/auth";
 import { fetchUserTags } from "../api/tags";
 import { userAPI } from "../utils/api";
+import { isLoggedIn } from "../utils/auth";
 
 const Main = () => {
   const navigate = useNavigate();
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setLoggedIn(isLoggedIn());
+  }, []);
 
   const [userInfo, setUserInfo] = useState({
     id: null,
@@ -36,11 +42,11 @@ const Main = () => {
   useEffect(() => {
     const initUser = async () => {
       const savedUser = localStorage.getItem("userInfo");
-  
+
       if (savedUser) {
         const parsed = JSON.parse(savedUser);
         setUserInfo(parsed);
-  
+
         try {
           const tags = await fetchUserTags(parsed.id);
           if (Array.isArray(tags)) {
@@ -49,18 +55,17 @@ const Main = () => {
         } catch (err) {
           console.error("❌ 태그 로딩 실패:", err);
         }
-  
       } else {
         // 토큰 추출 시도
         const hasTokens = extractAndSaveTokensFromUrl();
         const accessToken = localStorage.getItem("accessToken");
-  
+
         if (hasTokens || accessToken) {
           try {
             const user = await userAPI.getCurrentUser();
             setUserInfo(user);
             localStorage.setItem("userInfo", JSON.stringify(user));
-  
+
             const tags = await fetchUserTags(user.id);
             if (Array.isArray(tags)) {
               setUserTags(tags);
@@ -74,7 +79,7 @@ const Main = () => {
         }
       }
     };
-  
+
     initUser();
   }, []);
 
@@ -90,46 +95,112 @@ const Main = () => {
     <div>
       <Header />
       <Body>
-        <Text1>
-          <p className="MainTitle1">
-            로그인 후 발자취를
-            <br />
-            기록하고 공유해보세요
-          </p>
+        <Text1 style={{ marginTop: "2rem", marginBottom: "1rem" }}>
+          {loggedIn ? (
+            <p
+              className="MainTitle1"
+              style={{ fontSize: "20px", lineHeight: "1.2" }}
+            >
+              {userInfo.name}님의
+              <br />
+              발자취를
+              <br /> 기록하고 공유해보세요
+            </p>
+          ) : (
+            <p
+              className="MainTitle1 "
+              style={{ fontSize: "20px", lineHeight: "1.2" }}
+            >
+              로그인 후 발자취를
+              <br />
+              기록하고 공유해보세요
+            </p>
+          )}
         </Text1>
 
         <RouteCardGrid>
           <Link to="/milestone">
             <FeatureCard style={{ backgroundColor: "#e0edff" }}>
-              <div className="Headline4" style={{ fontWeight: 600 }}>마일스톤</div>
-              <div style={{ fontSize: "12px", color: "#000000" }}>나의 기록을 한번에 볼 수 있어요</div>
-              <ArrowWrapper>보러가기 <ArrowRightCircle /></ArrowWrapper>
+              <div
+                className="Headline4"
+                style={{ fontWeight: 800, fontSize: "22px" }}
+              >
+                마일스톤
+              </div>
+              <div
+                style={{ fontSize: "12px", color: "#000000", marginTop: "8px" }}
+              >
+                이정표로 나의 기록을
+                <br />
+                한눈에 볼 수 있어요.
+              </div>
+              <ArrowWrapper>
+                보러가기 <ArrowRightCircle />
+              </ArrowWrapper>
             </FeatureCard>
           </Link>
           <Link to="/write">
             <FeatureCard style={{ backgroundColor: "#aecce9" }}>
-              <div className="Headline4" style={{ fontWeight: 600 }}>글쓰기</div>
-              <div style={{ fontSize: "12px", color: "#000000" }}>게시글을 작성할 수 있어요</div>
-              <ArrowWrapper>포스팅하기 <ArrowRightCircle /></ArrowWrapper>
+              <div
+                className="Headline4"
+                style={{ fontWeight: 800, fontSize: "22px" }}
+              >
+                글쓰기
+              </div>
+              <div
+                style={{ fontSize: "12px", color: "#000000", marginTop: "8px" }}
+              >
+                참여한 활동에 별점을 매기고
+                <br />
+                기록을 남겨보세요.
+              </div>
+              <ArrowWrapper>
+                포스팅하기 <ArrowRightCircle />
+              </ArrowWrapper>
             </FeatureCard>
           </Link>
           <Link to="/tags" style={{ textDecoration: "none", color: "inherit" }}>
             <FeatureCard style={{ backgroundColor: "#84b4e1" }}>
-              <div className="Headline4" style={{ fontWeight: 600 }}>해시태그 구독하기</div>
-              <div style={{ fontSize: "12px", color: "#000000" }}>
-                관심 있는 해시태그를 구독하고<br />소식을 받아보세요.
+              <div
+                className="Headline4"
+                style={{ fontWeight: 800, fontSize: "22px" }}
+              >
+                해시태그 구독하기
               </div>
-              <ArrowWrapper>둘러보기 <ArrowRightCircle /></ArrowWrapper>
+              <div
+                style={{ fontSize: "12px", color: "#000000", marginTop: "8px" }}
+              >
+                관심 있는 해시태그를 구독하고
+                <br />
+                소식을 받아보세요.
+              </div>
+              <ArrowWrapper>
+                둘러보기 <ArrowRightCircle />
+              </ArrowWrapper>
             </FeatureCard>
           </Link>
         </RouteCardGrid>
 
         <Text2>
-          <p className="MainTitle1">
-            인기있는
-            <br />
-            해시태그를 모았어요
-          </p>
+          {loggedIn ? (
+            <p
+              className="MainTitle1"
+              style={{ fontSize: "20px", lineHeight: "1.2" }}
+            >
+              {userInfo.name}님을 위한
+              <br />
+              해시태그를 모았어요
+            </p>
+          ) : (
+            <p
+              className="MainTitle1"
+              style={{ fontSize: "20px", lineHeight: "1.2" }}
+            >
+              인기있는
+              <br />
+              해시태그를 모았어요
+            </p>
+          )}
         </Text2>
 
         <TagCardGrid>
@@ -148,35 +219,69 @@ const Main = () => {
           ))}
         </TagCardGrid>
 
-        <Text2>
-          <p className="MainTitle1">
-            새로운 소식을
-            <br />
-            전해드릴게요
-          </p>
+        <Text2 style={{ marginBottom: "1rem" }}>
+          {loggedIn ? (
+            <p
+              className="MainTitle1"
+              style={{ fontSize: "20px", lineHeight: "1.2" }}
+            >
+              {userInfo.name}님께
+              <br />
+              새로운 소식을
+              <br />
+              전해드릴게요
+            </p>
+          ) : (
+            <p
+              className="MainTitle1"
+              style={{ fontSize: "20px", lineHeight: "1.2" }}
+            >
+              새로운 소식을
+              <br />
+              전해드릴게요
+            </p>
+          )}
         </Text2>
 
         <NewsGrid>
-          <NewsCard style={{ background: "linear-gradient(180deg, #0a1f3d, #274c6e)" }}>
+          <NewsCard
+            style={{ background: "linear-gradient(180deg, #0a1f3d, #274c6e)" }}
+          >
             <div>
               <NewsTitle>새 소식</NewsTitle>
               <NewsDesc>New</NewsDesc>
             </div>
-            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
+            <ReadMore>
+              확인하기 <ArrowRightCircle />
+            </ReadMore>
           </NewsCard>
-          <NewsCard style={{ background: "#a3d3e6" }}>
-            <NewsTitle>2025 대한민국 공익광고제</NewsTitle>
+          <NewsCard
+            style={{ background: "linear-gradient(135deg, #4B4F53, #818F9C)" }}
+          >
+            <NewsTitle >
+              2025 대한민국 공익광고제
+            </NewsTitle>
             <NewsDesc>25.07.01 ~ 25.08.18</NewsDesc>
-            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
+            <ReadMore>
+              확인하기 <ArrowRightCircle />
+            </ReadMore>
           </NewsCard>
-          <NewsCard style={{ background: "linear-gradient(180deg, #0d2546, #193857)" }}>
+          <NewsCard
+            style={{ background: "linear-gradient(180deg, #0d2546, #193857)" }}
+          >
             <NewsTitle>현직자가 알려주는 직무 경험 쌓는 법</NewsTitle>
-            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
+            <ReadMore>
+              확인하기 <ArrowRightCircle />
+            </ReadMore>
           </NewsCard>
-          <NewsCard style={{ background: "linear-gradient(180deg, #253c5b, #5c768e)" }}>
+          <NewsCard
+            style={{ background: "linear-gradient(180deg, #253c5b, #5c768e)" }}
+          >
             <NewsTitle>MAKER 똑똑하게 사용하기</NewsTitle>
             <NewsDesc>#취업 #활용자 #사용설명서</NewsDesc>
-            <ReadMore>확인하기 <ArrowRightCircle /></ReadMore>
+            <ReadMore>
+              확인하기 <ArrowRightCircle />
+            </ReadMore>
           </NewsCard>
         </NewsGrid>
       </Body>
@@ -190,7 +295,7 @@ export default Main;
 
 const RouteCardGrid = styled.div`
   display: flex;
-  gap: 2%;
+  gap: 1%;
   justify-content: center;
 `;
 
@@ -206,7 +311,7 @@ const FeatureCard = styled.div`
   padding: 1.2rem;
   width: 25vw;
   min-width: 15rem;
-  height: 160px;
+  height: 11rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
@@ -235,15 +340,16 @@ const ArrowWrapper = styled.div`
   &:hover svg {
     transform: translateX(4px);
   }
+  justify-content: flex-end;
 `;
 
 const Text1 = styled.div`
-  font-weight: 500;
+  font-weight: 700;
   margin-left: 10%;
   margin-bottom: 2rem;
 `;
 const Text2 = styled.div`
-  font-weight: 500;
+  font-weight: 700;
   margin-top: 4rem;
   margin-left: 10%;
   margin-bottom: 2rem;
@@ -337,22 +443,25 @@ const NewsCard = styled.div`
 `;
 
 const NewsTitle = styled.div`
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 700;
+  
 `;
 
 const NewsDesc = styled.div`
   font-size: 12px;
   opacity: 0.85;
+  // line-height: 1.2;
 `;
 
 const ReadMore = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 6px;
   color: #fff;
+  justify-content: flex-end;
 
   svg {
     width: 16px;
