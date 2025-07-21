@@ -14,6 +14,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
     Optional<UserProfile> findByEmail(String email);
 
+
+
+
     /**
      * 소셜 타입과 소셜의 식별값으로 회원 찾는 메소드
      * 정보 제공을 동의한 순간 DB에 저장해야하지만, 아직 추가 정보(닉네임, 학교, 전공, 커리어 등)를 입력받지 않았으므로

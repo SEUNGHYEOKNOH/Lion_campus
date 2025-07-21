@@ -33,6 +33,7 @@ public class UserResponseDto {
     private SocialType socialType;
     private String imageUrl;
     private List<String> tags;
+    private String DefaultTag;
 
     /**
      * UserProfile 엔티티를 UserResponseDto로 변환
@@ -60,6 +61,7 @@ public class UserResponseDto {
                 .socialType(userProfile.getSocialType())
                 .imageUrl(userProfile.getImageUrl())
                 .tags(tagNames)
+                .DefaultTag(tag.get)
                 .build();
     }
 } 

@@ -205,15 +205,16 @@ const Main = () => {
 
         <TagCardGrid>
           {userTags.slice(0, 4).map((tag, idx) => (
-            <TagCard1 key={idx} onClick={() => handleCardClick(tag.tagName)}>
-              <CardHeader>
+            <TagCard1 key={idx} onClick={() => handleCardClick(tag.tagName)} style={{backgroundColor:"#E4EAF1"}}>
+              <CardHeader >
                 <CategoryBadge>{tag.koreanName}</CategoryBadge>
-                <RankChange>▲ TOP {idx + 1}</RankChange>
+                <RankChange>▲ <div style={{color:"black"}}> TOP {idx + 1}</div> </RankChange>
               </CardHeader>
               <HashTag>#{tag.tagName}</HashTag>
               <Thumbnail
                 src={tag.imageUrl || getFirebaseImageUrl(tag.tagName)}
                 alt={`${tag.tagName} 썸네일`}
+                
               />
             </TagCard1>
           ))}
@@ -269,7 +270,7 @@ const Main = () => {
           <NewsCard
             style={{ background: "linear-gradient(180deg, #0d2546, #193857)" }}
           >
-            <NewsTitle>현직자가 알려주는 직무 경험 쌓는 법</NewsTitle>
+            <NewsTitle>현직자가 알려주는 <br/>직무 경험 쌓는 법</NewsTitle>
             <ReadMore>
               확인하기 <ArrowRightCircle />
             </ReadMore>
@@ -325,7 +326,7 @@ const ArrowWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: #333;
   cursor: pointer;
@@ -363,13 +364,13 @@ const TagCardGrid = styled.div`
 `;
 
 const TagCard1 = styled.div`
-  width: 23vw;
+  width: 20vw;
   min-width: 7rem;
   height: 200px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   background-color: hsl(204, 10%, 91%);
-  padding: 12px;
+  padding: 0px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -386,6 +387,7 @@ const CardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 8px ;
 `;
 
 const CategoryBadge = styled.div`
@@ -394,24 +396,28 @@ const CategoryBadge = styled.div`
   background-color: #0a2941;
   color: white;
   padding: 2px 8px;
-  border-radius: 8px;
+  border-radius: 10px;
 `;
 const RankChange = styled.div`
   font-size: 12px;
   color: #d33; /* 그냥 고정 색상으로 */
   font-weight: 600;
+  display: flex;
+  display-direction: row;
+  margin-right: 1vw;
 `;
+
 
 const HashTag = styled.div`
   font-size: 16px;
   font-weight: 700;
-  margin: 8px 0;
+margin: 8px 8px 1px 8px; // 상/우/하/좌 순서
 `;
 
 const Thumbnail = styled.img`
   width: 100%;
-  height: 90px;
-  border-radius: 8px;
+  height: 120px;
+  
   object-fit: cover;
 `;
 
